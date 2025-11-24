@@ -1,0 +1,6 @@
+Le Service est une couche ENTRE le Controller et le Repository.
+Il a pour rôle de :
+ - Contenir la logique métier
+ - Protéger la base de données
+ - Faire des traitements avant d’appeler le Repository
+ - Centraliser les règles de gestion.
