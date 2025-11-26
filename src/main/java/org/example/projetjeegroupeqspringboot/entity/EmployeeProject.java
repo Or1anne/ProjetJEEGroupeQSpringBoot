@@ -11,12 +11,12 @@ public class EmployeeProject {
     private EmployeeProjectId id;
 
     @ManyToOne
-    @MapsId("id_employee")
+    @MapsId("idEmployee")
     @JoinColumn(name = "id_employee")
     private Employee employee;
 
     @ManyToOne
-    @MapsId("id_project")
+    @MapsId("idProject")
     @JoinColumn(name = "id_project")
     private Project project;
 
