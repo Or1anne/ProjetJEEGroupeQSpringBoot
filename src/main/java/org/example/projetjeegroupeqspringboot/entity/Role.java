@@ -10,11 +10,11 @@ import org.antlr.v4.runtime.misc.NotNull;
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idRole")
+    @Column(name = "id_role")
     private int idRole;
 
     @Nonnull
-    @Column(name = "roleName", unique = true)
+    @Column(name = "role_name", unique = true)
     private String roleName;
 
     @OneToMany(mappedBy = "role")

@@ -10,7 +10,7 @@ import java.sql.Date;
 public class Pay {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Gère la génération et l'incrémentation automatiquement
-    @Column(name = "idPay")
+    @Column(name = "id_pay")
     private int id;
 
     @Nonnull
@@ -25,7 +25,7 @@ public class Pay {
 
     @ManyToOne
     @Nonnull
-    @JoinColumn(name = "idEmployee")
+    @JoinColumn(name = "id_employee")
     private Employee employee;
 
 // verifier ou mettre le calcul

@@ -9,17 +9,17 @@ import jakarta.persistence.*;
 public class Department {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idDepartment")
+    @Column(name = "id_Department")
     private int id;
 
     @Nonnull
-    @Column(nullable = false, unique = true)
+    @Column(name = "department_name", nullable = false, unique = true)
     private String departmentName;
 
     // TODO transformer en @JoinColomn clée étrangere
     @ManyToOne
     @Nullable
-    @JoinColumn(name = "idChefDep")
+    @JoinColumn(name = "id_chef_dep")
     private Employee chefDepartment;
 
     public Department() {}

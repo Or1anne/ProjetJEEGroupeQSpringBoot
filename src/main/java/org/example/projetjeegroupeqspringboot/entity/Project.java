@@ -14,7 +14,7 @@ public class Project
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Gère la génération et l'incrémentation automatiquement
-    @Column(name = "idProject")
+    @Column(name = "id_project")
     private int id;
 
     @Column(name = "name")
@@ -27,7 +27,7 @@ public class Project
 
     @ManyToOne
     @Nullable
-    @JoinColumn(name = "idChefPro")
+    @JoinColumn(name = "id_chef_pro")
     private Employee ChefProj;
 
     @OneToMany(mappedBy = "project")

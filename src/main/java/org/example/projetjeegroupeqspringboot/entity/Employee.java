@@ -16,13 +16,15 @@ import java.util.Set;
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idEmployee")
+    @Column(name = "id_employee")
     private int id;
 
     @Nonnull
+    @Column(name = "last_name")
     private String lastName;
 
     @Nonnull
+    @Column(name = "first_name")
     private String firstName;
 
     @Nonnull
@@ -43,7 +45,7 @@ public class Employee {
 
     @ManyToOne
     @Nullable
-    @JoinColumn(name = "idDepartment")
+    @JoinColumn(name = "id_department")
     private Department department;
 
     @OneToMany(mappedBy = "employee", fetch = FetchType.EAGER)

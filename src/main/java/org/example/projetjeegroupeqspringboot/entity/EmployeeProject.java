@@ -5,19 +5,19 @@ import org.example.projetjeegroupeqspringboot.entity.embededId.EmployeeRoleId;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "employeeProject")
+@Table(name = "employee_project")
 public class EmployeeProject {
     @EmbeddedId
     private EmployeeProjectId id;
 
     @ManyToOne
-    @MapsId("idEmployee")
-    @JoinColumn(name = "idEmployee")
+    @MapsId("id_employee")
+    @JoinColumn(name = "id_employee")
     private Employee employee;
 
     @ManyToOne
-    @MapsId("idProject")
-    @JoinColumn(name = "idProject")
+    @MapsId("id_project")
+    @JoinColumn(name = "id_project")
     private Project project;
 
     public EmployeeProject() {}
