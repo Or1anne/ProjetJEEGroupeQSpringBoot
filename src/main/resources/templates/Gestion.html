@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tableau de bord</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="hero-head">
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-start">
+                <a th:href="@{/}" class="navbar-item">Accueil</a>
+                <a th:href="@{/search}" class="navbar-item">Recherche</a>
+                <a th:href="@{/gestion}" class="navbar-item">Gestion</a>
+            </div>
+
+            <div class="navbar-end">
+                <a th:href="@{/profile}" class="navbar-item">Profil</a>
+                <a th:href="@{/logout}" class="navbar-item">Logout</a>
+            </div>
+        </div>
+    </nav>
+</div>
+<div class="hero-body">
+    <header>
+        <h2>Tableau de bord</h2>
+    </header>
+
+    <main class="container">
+        <section class="dashboard-grid">
+
+            <!-- === Employés === -->
+            <div class="card">
+                <h2>Employés</h2>
+                <ul>
+                    <li><a th:href="@{/employee}">Liste des employés</a></li>
+                    <li><a th:href="@{/employee/add}">Ajouter un employé</a></li>
+                </ul>
+            </div>
+
+            <!-- === Départements === -->
+            <div class="card">
+                <h2>Départements</h2>
+                <ul>
+                    <li><a th:href="@{/departments}">Liste des départements</a></li>
+                    <li><a th:href="@{/departments/add}">Créer un département</a></li>
+                </ul>
+            </div>
+
+            <!-- === Projets === -->
+            <div class="card">
+                <h2>Projets</h2>
+                <ul>
+                    <li><a th:href="@{/project}">Liste des projets</a></li>
+                    <li><a th:href="@{/project/add}">Créer un projet</a></li>
+                </ul>
+            </div>
+
+        </section>
+    </main>
+</div>
+</body>
+</html>

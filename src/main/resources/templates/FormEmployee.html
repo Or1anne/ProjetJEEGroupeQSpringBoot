@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Formulaire de création d'un employé</title>
+    <link rel="stylesheet" th:href="@{/CSS/style.css}">
+</head>
+
+<body>
+<div class="hero-head">
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-start">
+                <a th:href="@{/}" class="navbar-item">Accueil</a>
+                <a th:href="@{/search}" class="navbar-item">Recherche</a>
+                <a th:href="@{/gestion}" class="navbar-item">Gestion</a>
+            </div>
+
+            <div class="navbar-end">
+                <a th:href="@{/profile}" class="navbar-item">Profil</a>
+                <a th:href="@{/login}" class="navbar-item">Logout</a>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<div class="hero-body">
+    <nav>
+        <a th:href="@{/employee}">Liste des employés</a>
+    </nav>
+
+    <div class="form-container">
+
+
+        <!-- Message d'erreur -->
+        <div th:if="${errorMessage}" class="error-message"
+             th:text="${errorMessage}"></div>
+
+        <!-- FORMULAIRE -->
+        <form th:action="@{/employee}" method="post" class="employee-form">
+        <!-- Titre : Ajouter ou Modifier -->
+        <h2 th:text="${isEditMode} ? 'Modifier ' + ${employee.lastName} + ' ' + ${employee.firstName} : 'Ajouter un employé'"></h2>
+
+            <!-- Mode (edit/add) -->
+            <input type="hidden" name="action" th:value="${isEditMode} ? 'edit' : 'add'"/>
+
+            <!-- ID si edit -->
+            <input type="hidden" name="id" th:if="${isEditMode}" th:value="${employee.id}"/>
+
+            <!-- NOM -->
+            <p>
+                <label for="lastname">Nom</label>
+                <input type="text" id="lastname" name="lastname"
+                       th:value="${employee.lastName}" required>
+            </p>
+
+            <!-- PRENOM -->
+            <p>
+                <label for="firstname">Prénom</label>
+                <input type="text" id="firstname" name="firstname"
+                       th:value="${employee.firstName}" required>
+            </p>
+
+            <!-- GRADE -->
+            <p>
+                <label for="grade">Grade</label>
+                <select id="grade" name="grade" required>
+                    <option value="">-- Choisir un grade --</option>
+
+                    <option th:each="g : ${grades}"
+                            th:value="${g}"
+                            th:selected="${employee.grade} == ${g}"
+                            th:text="${g}">
+                    </option>
+                </select>
+            </p>
+
+            <!-- POSTE -->
+            <p>
+                <label for="post">Poste</label>
+                <input type="text" id="post" name="post"
+                       th:value="${employee.post}">
+            </p>
+
+            <!-- SALAIRE -->
+            <p>
+                <label for="salary">Salaire</label>
+                <input type="number" id="salary" name="salary" step="0.01"
+                       th:value="${employee.salary}">
+            </p>
+
+            <!-- DEPARTEMENT -->
+            <p>
+                <label for="department">Département</label>
+
+                <select id="department"
+                        name="departmentId"
+                        th:disabled="${#lists.isEmpty(departments)}"
+                        th:required="${!#lists.isEmpty(departments)}">
+
+                    <option value="" th:if="${#lists.isEmpty(departments)}">
+                        Aucun département disponible
+                    </option>
+
+                    <option value="" th:if="${!#lists.isEmpty(departments)}">
+                        -- Choisir un département --
+                    </option>
+
+                    <option th:each="dep : ${departments}"
+                            th:value="${dep.id}"
+                            th:selected="${employee.department != null and employee.department.id == dep.id}"
+                            th:text="${dep.departmentName}">
+                    </option>
+                </select>
+
+                <small th:if="${#lists.isEmpty(departments)}">
+                    Veuillez créer un département avant d'ajouter un employé.
+                </small>
+            </p>
+
+
+            <input type="submit" value="Enregistrer">
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

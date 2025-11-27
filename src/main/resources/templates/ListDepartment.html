@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des départements</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<!-- ==== HEADER / NAVBAR ==== -->
+<div class="hero-head">
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-start">
+                <a th:href="@{/}" class="navbar-item">Accueil</a>
+                <a th:href="@{/search}" class="navbar-item">Recherche</a>
+                <a th:href="@{/gestion}" class="navbar-item">Gestion</a>
+            </div>
+
+            <div class="navbar-end">
+                <a th:href="@{/profile}" class="navbar-item">Profil</a>
+                <a th:href="@{/logout}" class="navbar-item">Logout</a>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<!-- ==== CONTENT ==== -->
+<div class="hero-body">
+    <h2>Liste des départements</h2>
+
+    <nav>
+        <a th:href="@{/departments/add}">Ajouter un département</a>
+    </nav>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="dep : ${departments}"
+            th:onclick="'window.location.href=\'/departments/' + ${dep.id} + '\';'"
+            style="cursor:pointer">
+
+            <td th:text="${dep.id}"></td>
+            <td th:text="${dep.departmentName}"></td>
+
+            <td>
+                <a th:href="@{'/departments/edit/' + ${dep.id}}">Modifier</a> |
+                <a th:href="@{'/departments/delete/' + ${dep.id}}"
+                   onclick="return confirm('Supprimer ce département ?');">
+                    Supprimer
+                </a>
+            </td>
+        </tr>
+
+        <!-- Si aucun département -->
+        <tr th:if="${#lists.isEmpty(departments)}">
+            <td colspan="4" style="text-align:center;">Aucun département trouvé</td>
+        </tr>
+
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

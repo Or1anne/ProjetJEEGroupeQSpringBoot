@@ -5,11 +5,9 @@ import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import org.example.projetjeegroupeqspringboot.entity.enumeration.Grade;
-import org.example.projetjeegroupeqspringboot.entity.enumeration.ProjectStatus;
+import org.example.projetjeegroupeqspringboot.entity.enumeration.GradeConverter;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "employee")
@@ -28,7 +26,8 @@ public class Employee {
     private String firstName;
 
     @Nonnull
-    @Enumerated(EnumType.STRING)
+    @Column(name = "grade")
+    @Convert(converter = GradeConverter.class)
     private Grade grade;
 
     private String post;

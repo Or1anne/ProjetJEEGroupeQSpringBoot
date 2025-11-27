@@ -10,14 +10,14 @@
         <nav class="navbar">
             <div class="container">
                 <div class="navbar-start">
-                    <a href="" class="navbar-item">Accueil</a> <!-- TODO: Ajouter le lien vers la page d'accueil -->
-                    <a href="" class="navbar-item">Recherche</a> <!-- TODO: Ajouter le lien vers la page de recherche -->
-                    <a href="" class="navbar-item">Gestion</a> <!-- TODO: Ajouter le lien vers la page de gestion -->
+                    <a th:href="@{/}" class="navbar-item">Accueil</a>
+                    <a th:href="@{/search}" class="navbar-item">Recherche</a>
+                    <a th:href="@{/gestion}" class="navbar-item">Gestion</a>
                 </div>
 
                 <div class="navbar-end">
-                    <a href="" class="navbar-item">Profil</a> <!-- TODO: Ajouter le lien vers la page de profil -->
-                    <a href="" class="navbar-item">Déconnexion</a> <!-- TODO: Ajouter le lien vers la page de déconnexion -->
+                    <a th:href="@{/profile}" class="navbar-item">Profil</a>
+                    <a th:href="@{/logout}" class="navbar-item">Logout</a>
                 </div>
             </div>
         </nav>

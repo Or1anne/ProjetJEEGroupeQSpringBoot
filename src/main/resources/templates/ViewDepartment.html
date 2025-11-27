@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détails du Département</title>
+    <link rel="stylesheet" th:href="@{/CSS/style.css}">
+</head>
+<body>
+<div class="hero-head">
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-start">
+                <a th:href="@{/}" class="navbar-item">Accueil</a>
+                <a th:href="@{/search}" class="navbar-item">Recherche</a>
+                <a th:href="@{/gestion}" class="navbar-item">Gestion</a>
+            </div>
+
+            <div class="navbar-end">
+                <a th:href="@{/profile}" class="navbar-item">Profil</a>
+                <a th:href="@{/logout}" class="navbar-item">Logout</a>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<section class="hero-body">
+    <div class="card">
+        <h2>Informations du Département</h2>
+        <ul>
+            <li><strong>ID :</strong>
+                <span th:text="${department.id}"></span>
+            </li>
+            <li><strong>Nom :</strong>
+                <span th:text="${department.departmentName}"></span>
+            </li>
+            <li><strong>Chef de département :</strong>
+                <span th:text="${department.chefDepartment != null ? department.chefDepartment.firstName + ' ' + department.chefDepartment.lastName : 'Aucun'}"></span>
+            </li>
+            <li><strong>Nombre d'employés :</strong>
+                <span th:text="${department.employees != null ? department.employees.size() : 0}"></span>
+            </li>
+        </ul>
+
+        <h3>Employés du département</h3>
+        <ul th:if="${department.employees != null and !department.employees.isEmpty()}">
+            <li th:each="emp : ${department.employees}">
+                <a th:href="@{/employee/view/{id}(id=${emp.id})}"
+                   th:text="${emp.firstName + ' ' + emp.lastName + ' (' + emp.post + ')'}"></a>
+            </li>
+        </ul>
+        <p th:if="${department.employees == null or department.employees.isEmpty()}">
+            Aucun employé dans ce département
+        </p>
+
+        <div class="form-action" style="display:flex;gap:10px;margin-top:12px;">
+            <a class="button" th:href="@{/departments/edit/{id}(id=${department.id})}">Modifier</a>
+            <a class="button" th:href="@{/departments}">Retour à la liste</a>
+        </div>
+    </div>
+</section>
+</body>
+</html>

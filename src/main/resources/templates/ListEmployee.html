@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des employés</title>
+    <link rel="stylesheet" th:href="@{/CSS/style.css}">
+</head>
+<body>
+<div class="hero-head">
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-start">
+                <a th:href="@{/}" class="navbar-item">Accueil</a>
+                <a th:href="@{/search}" class="navbar-item">Recherche</a>
+                <a th:href="@{/gestion}" class="navbar-item">Gestion</a>
+            </div>
+
+            <div class="navbar-end">
+                <a th:href="@{/profile}" class="navbar-item">Profil</a>
+                <a th:href="@{/logout}" class="navbar-item">Logout</a>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<div class="hero-body">
+    <h2>Liste des employés</h2>
+    <nav>
+        <a class="btn" th:href="@{/employee/add}">Ajouter un employé</a>
+    </nav>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Grade</th>
+            <th>Poste</th>
+            <th>Département</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Si aucun employé -->
+        <tr th:if="${employees.isEmpty()}">
+            <td colspan="6">Aucun employé enregistré.</td>
+        </tr>
+        <!-- Boucle sur les employés -->
+        <tr th:each="employee : ${employees}"
+            th:onclick="'window.location.href=\'/employee/view/' + ${employee.id} + '\';'">
+            <td th:text="${employee.lastName} ?: ''"></td>
+            <td th:text="${employee.firstName} ?: ''"></td>
+            <td th:text="${employee.grade != null ? employee.grade.label : 'Non défini'}"></td>
+            <td th:text="${employee.post} ?: ''"></td>
+            <td th:text="${employee.department != null ? employee.department.departmentName : '-'}"></td>
+            <td>
+                <a th:href="@{/employee(action='edit', id=${employee.id})}">Modifier</a> |
+                <a th:href="@{/employee(action='delete', id=${employee.id})}"
+                   th:onclick="return confirm('Supprimer cet employé ?');">Supprimer</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

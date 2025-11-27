@@ -3,13 +3,14 @@ package org.example.projetjeegroupeqspringboot.entity;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "department")
 public class Department {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_Department")
+    @Column(name = "id_department")
     private int id;
 
     @Nonnull
@@ -21,6 +22,9 @@ public class Department {
     @Nullable
     @JoinColumn(name = "id_chef_dep")
     private Employee chefDepartment;
+
+    @OneToMany(mappedBy = "department")
+    private List<Employee> employees;
 
     public Department() {}
     public Department(String departmentName) {
@@ -43,5 +47,11 @@ public class Department {
     }
     public Employee getChefDepartment() {
         return chefDepartment;
+    }
+    public List<Employee> getEmployees() {
+        return employees;
+    }
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
     }
 }

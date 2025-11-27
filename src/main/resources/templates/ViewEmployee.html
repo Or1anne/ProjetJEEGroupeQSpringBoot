@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <title>View Employee</title>
+    <link rel="stylesheet" th:href="@{/CSS/style.css}" />
+</head>
+<body>
+<div class="hero-head">
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-start">
+                <a th:href="@{/}" class="navbar-item">Accueil</a>
+                <a th:href="@{/search}" class="navbar-item">Recherche</a>
+                <a th:href="@{/gestion}" class="navbar-item">Gestion</a>
+            </div>
+
+            <div class="navbar-end">
+                <a th:href="@{/profile}" class="navbar-item">Profil</a>
+                <a th:href="@{/logout}" class="navbar-item">Logout</a>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<section class="hero-body">
+    <div class="card">
+        <h2>Informations Personnelles</h2>
+        <ul>
+            <li><strong>Nom :</strong> <span th:text="${employee.lastName}"></span></li>
+            <li><strong>Prénom :</strong> <span th:text="${employee.firstName}"></span></li>
+            <li><strong>Grade :</strong>
+                <span th:text="${employee.grade != null ? employee.grade.label : ''}"></span>
+            </li>
+            <li><strong>Poste :</strong> <span th:text="${employee.post}"></span></li>
+            <li><strong>Salaire :</strong> <span th:text="${employee.salary}"></span>€</li>
+            <li><strong>Nom d'utilisateur :</strong> <span th:text="${employee.username}"></span></li>
+        </ul>
+
+        <h3>Département :</h3>
+        <p th:text="${employee.department != null ? employee.department.departmentName : 'Non assigné'}"></p>
+
+        <h3>Rôle</h3>
+        <!-- TODO Mettre en dynamique -->
+        <p>Role</p>
+
+        <h3>Projets</h3>
+        <ul id="projects-list">
+            <!-- TODO Remplacer par une liste dynamique si disponible -->
+            <li>Project A <small>(Active)</small></li>
+            <li>Project B <small>(Completed)</small></li>
+        </ul>
+
+        <!-- TODO Historique des paies -->
+
+        <div class="form-action" style="display:flex;gap:10px;margin-top:12px;">
+            <a class="button" th:href="@{/employee(action='edit', id=${employee.id})}">Modifier</a>
+            <a class="button" th:href="@{/employee}">Retour</a>
+            <a class="button" th:href="@{/listPay}">Historique des paies</a>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>
