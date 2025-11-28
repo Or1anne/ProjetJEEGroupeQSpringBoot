@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des projets</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<!-- Barre de navigation -->
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<div class="hero-body">
+    <h2>Liste des projets</h2>
+
+    <!-- Message de succès -->
+    <div th:if="${success}" class="success-message" th:text="${success}"></div>
+
+    <!-- Message d'erreur -->
+    <div th:if="${errorMessage}" class="error-message" th:text="${errorMessage}"></div>
+
+    <nav>
+        <a th:href="@{/projects/add}">Ajouter un projet</a>
+    </nav>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Chef de projet</th>
+            <th>État</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="project : ${projects}"
+            th:onclick="'window.location.href=\'/projects/' + ${project.id} + '\';'">
+
+            <td th:text="${project.nameProject}"></td>
+            <td th:text="${project.chefProj != null ? project.chefProj.firstName + ' ' + project.chefProj.lastName : 'Non assigné'}"></td>
+            <td th:text="${project.status}"></td>
+
+            <td>
+                <a th:href="@{'/projects/edit/' + ${project.id}}">Modifier</a> |
+                <a th:href="@{'/projects/delete/' + ${project.id}}" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce projet ?')">Supprimer</a>
+            </td>
+
+        </tr>
+        <!-- Si aucun projet -->
+        <tr th:if="${#lists.isEmpty(projects)}">
+            <td colspan="4" style="text-align:center;">Aucun projet trouvé</td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+</body>
+</html>

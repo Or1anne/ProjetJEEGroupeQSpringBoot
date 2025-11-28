@@ -16,7 +16,7 @@
         <div th:if="${loggedUser != null}" class="login-status-message connected-message">
             <p class="welcome-text">Bienvenue <strong th:text="${loggedUser.firstName + ' ' + loggedUser.lastName}"></strong> !</p>
             <div class="grade-info">
-                <p>Grade : <span th:text="${loggedUser.grade}"></span></p>
+                <p>Grade : <span th:text="${loggedUser.grade.label}"></span></p>
             </div>
         </div>
 

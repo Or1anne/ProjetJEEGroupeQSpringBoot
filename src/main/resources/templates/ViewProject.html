@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Détails du projet</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+
+<!-- Barre de navigation -->
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<div class="hero-body">
+    <div class="card">
+
+        <h2 th:text="'Détails du projet : ' + ${project.nameProject}"></h2>
+
+        <p>
+            <strong>Chef de projet :</strong>
+            <span th:text="${project.chefProj != null ? project.chefProj.firstName + ' ' + project.chefProj.lastName : 'Non assigné'}"></span>
+        </p>
+
+        <p>
+            <strong>Statut :</strong>
+            <span th:text="${project.status}"></span>
+        </p>
+
+        <h4>Membres de l'équipe :</h4>
+
+        <ul th:if="${project.employees != null and !#lists.isEmpty(project.employees)}">
+            <li th:each="ep : ${project.employees}"
+                th:text="${ep.employee != null ? ep.employee.firstName + ' ' + ep.employee.lastName : 'N/A'}">
+                Employé
+            </li>
+        </ul>
+
+        <p th:if="${project.employees == null or #lists.isEmpty(project.employees)}">Aucun membre assigné</p>
+
+        <nav>
+            <a th:href="@{/projects}">Retour à la liste</a>
+        </nav>
+
+    </div>
+
+</div>
+
+</body>
+</html>

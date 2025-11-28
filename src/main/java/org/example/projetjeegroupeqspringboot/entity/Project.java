@@ -28,7 +28,7 @@ public class Project
     @ManyToOne
     @Nullable
     @JoinColumn(name = "id_chef_pro")
-    private Employee ChefProj;
+    private Employee chefProj;
 
     @OneToMany(mappedBy = "project")
     private List<EmployeeProject> employees;
@@ -38,21 +38,19 @@ public class Project
     public Project(String nameProject, ProjectStatus status, Employee chefProj) {
         this.nameProject = nameProject;
         this.status = status;
-        this.ChefProj = chefProj;
-
+        this.chefProj = chefProj;
     }
 
-    public int getId()
-    {
+    public int getId() {
         return id;
     }
 
-    public String getnameProject() {
+    public String getNameProject() {
         return nameProject;
     }
 
-    public void setnameProject(String name) {
-        this.nameProject = name;
+    public void setNameProject(String nameProject) {
+        this.nameProject = nameProject;
     }
 
     public ProjectStatus getStatus() {
@@ -64,11 +62,11 @@ public class Project
     }
 
     public Employee getChefProj() {
-        return ChefProj;
+        return chefProj;
     }
 
-    public void setChefProj(Employee ChefProj) {
-        this.ChefProj = ChefProj;
+    public void setChefProj(Employee chefProj) {
+        this.chefProj = chefProj;
     }
 
     public List<EmployeeProject> getEmployees() {
