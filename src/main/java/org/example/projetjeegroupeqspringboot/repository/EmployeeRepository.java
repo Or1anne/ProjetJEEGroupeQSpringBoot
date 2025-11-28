@@ -13,6 +13,7 @@ import java.util.List;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee,Long> {
     List<Employee> findByUsername(String username);
+    Employee findFirstByUsername(String username);
     List<Employee> findByGrade(Grade grade);
     List<Employee> findByPost(String post);
     List<Employee> findByProjects(List<EmployeeProject> projects);

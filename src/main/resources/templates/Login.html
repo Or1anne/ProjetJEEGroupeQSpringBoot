@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Connexion</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<div class="hero-head">
+    <nav class="navbar">
+        <div class="container">
+
+            <div class="navbar-start">
+                <a th:href="@{/}" class="navbar-item">Accueil</a>
+
+                <!-- Si utilisateur connecté -->
+                <a th:if="${loggedUser != null}" th:href="@{/search}" class="navbar-item">Recherche</a>
+                <a th:if="${loggedUser != null}" th:href="@{/gestion}" class="navbar-item">Gestion</a>
+            </div>
+
+            <div class="navbar-end">
+                <!-- Si connecté -->
+                <a th:if="${loggedUser != null}" th:href="@{/profile}" class="navbar-item">Profil</a>
+                <a th:if="${loggedUser != null}" th:href="@{/logout}" class="navbar-item">Déconnexion</a>
+
+                <!-- Si pas connecté -->
+                <a th:if="${loggedUser == null}" th:href="@{/login}" class="navbar-item">Connexion</a>
+            </div>
+
+        </div>
+    </nav>
+</div>
+
+<div class="hero-body">
+    <div class="form-container">
+
+        <form th:action="@{/login}" method="post">
+            <h2>Connexion</h2>
+
+            <!-- Message d'erreur -->
+            <div th:if="${error}" th:text="${error}"></div>
+
+            <p>
+                <label for="username">Nom d'utilisateur</label>
+                <input type="text" id="username" name="username" required>
+            </p>
+
+            <p>
+                <label for="password">Mot de passe</label>
+                <input type="password" id="password" name="password" required>
+            </p>
+
+            <input type="submit" value="Se connecter">
+        </form>
+
+    </div>
+</div>
+
+</body>
+</html>
