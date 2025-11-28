@@ -6,29 +6,8 @@
 </head>
 <body>
 <section>
-    <!-- Barre de navigation avec liens conditionnels -->
-    <div class="hero-head">
-        <nav class="navbar">
-            <div class="container">
-                <div class="navbar-start">
-                    <a th:href="@{/}" class="navbar-item">Accueil</a>
-
-                    <!-- Afficher uniquement si connecté -->
-                    <a th:if="${loggedUser != null}" th:href="@{/search}" class="navbar-item">Recherche</a>
-                    <a th:if="${loggedUser != null}" th:href="@{/gestion}" class="navbar-item">Gestion</a>
-                </div>
-
-                <div class="navbar-end">
-                    <!-- Afficher uniquement si connecté -->
-                    <a th:if="${loggedUser != null}" th:href="@{/profile}" class="navbar-item">Profil</a>
-                    <a th:if="${loggedUser != null}" th:href="@{/logout}" class="navbar-item">Déconnexion</a>
-
-                    <!-- Afficher uniquement si NON connecté -->
-                    <a th:if="${loggedUser == null}" th:href="@{/login}" class="navbar-item">Connexion</a>
-                </div>
-            </div>
-        </nav>
-    </div>
+    <!-- Barre de navigation -->
+    <div th:replace="fragments/navbar :: navbar"></div>
 
     <div class="hero-body">
         <h2>Accueil</h2>
@@ -37,11 +16,11 @@
         <div th:if="${loggedUser != null}" class="login-status-message connected-message">
             <p class="welcome-text">Bienvenue <strong th:text="${loggedUser.firstName + ' ' + loggedUser.lastName}"></strong> !</p>
             <div class="grade-info">
-                <p>Grade : <span th:text="${loggedUser.grade.label}"></span></p>
+                <p>Grade : <span th:text="${loggedUser.grade}"></span></p>
             </div>
         </div>
 
-        <!-- Message si NON connecté -->
+        <!-- Message si non connecté -->
         <div th:if="${loggedUser == null}" class="login-status-message not-connected-message">
             <strong>Vous n'êtes pas connecté</strong>
             <p>Veuillez vous connecter pour accéder à l'application</p>

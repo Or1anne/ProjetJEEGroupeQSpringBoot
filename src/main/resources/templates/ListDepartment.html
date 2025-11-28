@@ -6,26 +6,9 @@
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
+<!-- Barre de navigation -->
+<div th:replace="fragments/navbar :: navbar"></div>
 
-<!-- ==== HEADER / NAVBAR ==== -->
-<div class="hero-head">
-    <nav class="navbar">
-        <div class="container">
-            <div class="navbar-start">
-                <a th:href="@{/}" class="navbar-item">Accueil</a>
-                <a th:href="@{/search}" class="navbar-item">Recherche</a>
-                <a th:href="@{/gestion}" class="navbar-item">Gestion</a>
-            </div>
-
-            <div class="navbar-end">
-                <a th:href="@{/profile}" class="navbar-item">Profil</a>
-                <a th:href="@{/logout}" class="navbar-item">Logout</a>
-            </div>
-        </div>
-    </nav>
-</div>
-
-<!-- ==== CONTENT ==== -->
 <div class="hero-body">
     <h2>Liste des départements</h2>
 

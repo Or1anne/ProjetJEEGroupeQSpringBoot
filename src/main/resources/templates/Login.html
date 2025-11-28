@@ -7,31 +7,8 @@
 </head>
 
 <body>
-
-<div class="hero-head">
-    <nav class="navbar">
-        <div class="container">
-
-            <div class="navbar-start">
-                <a th:href="@{/}" class="navbar-item">Accueil</a>
-
-                <!-- Si utilisateur connecté -->
-                <a th:if="${loggedUser != null}" th:href="@{/search}" class="navbar-item">Recherche</a>
-                <a th:if="${loggedUser != null}" th:href="@{/gestion}" class="navbar-item">Gestion</a>
-            </div>
-
-            <div class="navbar-end">
-                <!-- Si connecté -->
-                <a th:if="${loggedUser != null}" th:href="@{/profile}" class="navbar-item">Profil</a>
-                <a th:if="${loggedUser != null}" th:href="@{/logout}" class="navbar-item">Déconnexion</a>
-
-                <!-- Si pas connecté -->
-                <a th:if="${loggedUser == null}" th:href="@{/login}" class="navbar-item">Connexion</a>
-            </div>
-
-        </div>
-    </nav>
-</div>
+<!-- Barre de navigation -->
+<div th:replace="fragments/navbar :: navbar"></div>
 
 <div class="hero-body">
     <div class="form-container">

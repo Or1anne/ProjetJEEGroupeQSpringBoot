@@ -7,22 +7,8 @@
     <link rel="stylesheet" th:href="@{/CSS/style.css}">
 </head>
 <body>
-<div class="hero-head">
-    <nav class="navbar">
-        <div class="container">
-            <div class="navbar-start">
-                <a th:href="@{/}" class="navbar-item">Accueil</a>
-                <a th:href="@{/search}" class="navbar-item">Recherche</a>
-                <a th:href="@{/gestion}" class="navbar-item">Gestion</a>
-            </div>
-
-            <div class="navbar-end">
-                <a th:href="@{/profile}" class="navbar-item">Profil</a>
-                <a th:href="@{/logout}" class="navbar-item">Logout</a>
-            </div>
-        </div>
-    </nav>
-</div>
+<!-- Barre de navigation -->
+<div th:replace="fragments/navbar :: navbar"></div>
 
 <section class="hero-body">
     <div class="card">

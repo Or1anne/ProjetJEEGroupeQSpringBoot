@@ -9,12 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class HomeController {
-    @RequestMapping(value = "/home")
-    public String sayHello(Model model) {
-        model.addAttribute("nom", "John Doe");
-        return "test";
-    }
-
     @RequestMapping(value = "/")
     public String redirectToHome() {
         return "index";

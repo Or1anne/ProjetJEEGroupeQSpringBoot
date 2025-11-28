@@ -7,26 +7,8 @@
 </head>
 <body>
 
-<div class="hero-head">
-    <nav class="navbar">
-        <div class="container">
-
-            <div class="navbar-start">
-                <a th:href="@{/}" class="navbar-item">Accueil</a>
-                <a th:if="${loggedUser != null}" th:href="@{/search}" class="navbar-item">Recherche</a>
-                <a th:if="${loggedUser != null}" th:href="@{/gestion}" class="navbar-item">Gestion</a>
-            </div>
-
-            <div class="navbar-end">
-                <a th:if="${loggedUser != null}" th:href="@{/profile}" class="navbar-item">Profil</a>
-                <a th:if="${loggedUser != null}" th:href="@{/logout}" class="navbar-item">Déconnexion</a>
-
-                <a th:if="${loggedUser == null}" th:href="@{/login}" class="navbar-item">Connexion</a>
-            </div>
-
-        </div>
-    </nav>
-</div>
+<!-- Barre de navigation -->
+<div th:replace="fragments/navbar :: navbar"></div>
 
 <div class="hero-body">
 
@@ -42,17 +24,14 @@
                            : 'Ajouter un département'">
             </h2>
 
-            <!-- ID caché si modification -->
             <input type="hidden" name="id" th:if="${isEditMode}" th:value="${department.id}"/>
 
-            <!-- NOM -->
             <p>
                 <label for="departmentName">Nom du département</label>
                 <input type="text" id="departmentName" name="departmentName"
                        th:value="${department.departmentName}" required>
             </p>
 
-            <!-- CHEF -->
             <p>
                 <label for="chefDepartment">Chef de département</label>
                 <select id="chefDepartment" name="chefDepartmentId">

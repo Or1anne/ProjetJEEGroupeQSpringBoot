@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Navbar Fragment</title>
+</head>
+<body>
+
+<!-- Fragment de la barre de navigation -->
+<div th:fragment="navbar" class="hero-head">
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-start">
+                <a th:href="@{/}" class="navbar-item">Accueil</a>
+
+                <!-- Afficher uniquement si connecté -->
+                <a th:if="${loggedUser != null}" th:href="@{/search}" class="navbar-item">Recherche</a>
+                <a th:if="${loggedUser != null}" th:href="@{/gestion}" class="navbar-item">Gestion</a>
+            </div>
+
+            <div class="navbar-end">
+                <!-- Afficher uniquement si connecté -->
+                <a th:if="${loggedUser != null}" th:href="@{/profile}" class="navbar-item">Profil</a>
+                <a th:if="${loggedUser != null}" th:href="@{/logout}" class="navbar-item">Déconnexion</a>
+
+                <!-- Afficher uniquement si NON connecté -->
+                <a th:if="${loggedUser == null}" th:href="@{/login}" class="navbar-item">Connexion</a>
+            </div>
+        </div>
+    </nav>
+</div>
+
+</body>
+</html>
+
