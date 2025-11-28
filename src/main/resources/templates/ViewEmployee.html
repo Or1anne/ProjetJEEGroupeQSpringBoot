@@ -16,7 +16,7 @@
             <li><strong>Nom :</strong> <span th:text="${employee.lastName}"></span></li>
             <li><strong>Prénom :</strong> <span th:text="${employee.firstName}"></span></li>
             <li><strong>Grade :</strong>
-                <span th:text="${employee.grade != null ? employee.grade.label : ''}"></span>
+                <span th:text="${employee.grade != null ? employee.grade : 'Non défini'}"></span>
             </li>
             <li><strong>Poste :</strong> <span th:text="${employee.post}"></span></li>
             <li><strong>Salaire :</strong> <span th:text="${employee.salary}"></span>€</li>
@@ -26,18 +26,23 @@
         <h3>Département :</h3>
         <p th:text="${employee.department != null ? employee.department.departmentName : 'Non assigné'}"></p>
 
-        <h3>Rôle</h3>
-        <!-- TODO Mettre en dynamique -->
-        <p>Role</p>
+        <h3>Rôle(s)</h3>
+        <ul th:if="${employee.roles != null and !#lists.isEmpty(employee.roles)}">
+            <li th:each="er : ${employee.roles}">
+                <span th:text="${er.role != null ? er.role.roleName : 'N/A'}"></span>
+            </li>
+        </ul>
+        <p th:if="${employee.roles == null or #lists.isEmpty(employee.roles)}">Aucun rôle assigné</p>
 
         <h3>Projets</h3>
-        <ul id="projects-list">
-            <!-- TODO Remplacer par une liste dynamique si disponible -->
-            <li>Project A <small>(Active)</small></li>
-            <li>Project B <small>(Completed)</small></li>
+        <ul id="projects-list" th:if="${employee.projects != null and !#lists.isEmpty(employee.projects)}">
+            <li th:each="ep : ${employee.projects}">
+                <span th:text="${ep.project != null ? ep.project.nameProject : 'N/A'}"></span>
+                <small th:if="${ep.project != null and ep.project.projectStatus != null}"
+                       th:text="'(' + ${ep.project.projectStatus} + ')'"></small>
+            </li>
         </ul>
-
-        <!-- TODO Historique des paies -->
+        <p th:if="${employee.projects == null or #lists.isEmpty(employee.projects)}">Aucun projet assigné</p>
 
         <div class="form-action" style="display:flex;gap:10px;margin-top:12px;">
             <a class="button" th:href="@{/employee(action='edit', id=${employee.id})}">Modifier</a>
