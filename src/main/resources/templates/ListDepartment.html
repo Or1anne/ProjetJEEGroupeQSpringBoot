@@ -29,6 +29,12 @@
 <div class="hero-body">
     <h2>Liste des départements</h2>
 
+    <!-- Message de succès -->
+    <div th:if="${success}" class="success-message" th:text="${success}"></div>
+
+    <!-- Message d'erreur -->
+    <div th:if="${errorMessage}" class="error-message" th:text="${errorMessage}"></div>
+
     <nav>
         <a th:href="@{/departments/add}">Ajouter un département</a>
     </nav>

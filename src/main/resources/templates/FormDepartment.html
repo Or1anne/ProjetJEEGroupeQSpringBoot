@@ -35,29 +35,27 @@
     </nav>
 
     <div class="form-container">
-        <form th:action="${isEditMode} ? @{/departments/save} : @{/departments/add}"
-              th:object="${department}"
-              method="post">
+        <form th:action="@{/departments/save}" method="post">
 
             <!-- Titre dynamique -->
             <h2 th:text="${isEditMode} ? 'Modifier le département : ' + ${department.departmentName}
                            : 'Ajouter un département'">
             </h2>
 
-
             <!-- ID caché si modification -->
-            <input type="hidden" th:if="${isEditMode}" th:field="*{id}"/>
+            <input type="hidden" name="id" th:if="${isEditMode}" th:value="${department.id}"/>
 
             <!-- NOM -->
             <p>
                 <label for="departmentName">Nom du département</label>
-                <input type="text" id="departmentName" th:field="*{departmentName}" required>
+                <input type="text" id="departmentName" name="departmentName"
+                       th:value="${department.departmentName}" required>
             </p>
 
             <!-- CHEF -->
             <p>
                 <label for="chefDepartment">Chef de département</label>
-                <select id="chefDepartment" th:field="*{chefDepartment}" required>
+                <select id="chefDepartment" name="chefDepartmentId">
                     <option value="">-- Choisir un chef de département --</option>
 
                     <option th:each="e : ${employees}"

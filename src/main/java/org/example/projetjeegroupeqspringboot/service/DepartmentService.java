@@ -24,4 +24,12 @@ public class DepartmentService {
     public void save(Department department) {
         departmentRepository.save(department);
     }
+
+    public boolean deleteById(Long id) {
+        if (departmentRepository.existsById(id)) {
+            departmentRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
 }
