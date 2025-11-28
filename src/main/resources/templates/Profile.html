@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Profil</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<!-- Barre de navigation -->
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<section class="hero-body">
+    <nav>
+        <a th:href="@{/profile/edit}">Modifier le profil</a>
+        <a th:href="@{/profile/password}">Changer le mot de passe</a>
+    </nav>
+
+    <div class="card">
+        <h2>Informations personnelles</h2>
+
+        <ul>
+            <li><strong>Nom : </strong> <span th:text="${loggedUser.lastName}"></span></li>
+            <li><strong>Prénom : </strong> <span th:text="${loggedUser.firstName}"></span></li>
+            <li><strong>Grade : </strong>
+                <span th:text="${loggedUser.grade != null ? loggedUser.grade.label : 'Non défini'}"></span>
+            </li>
+            <li><strong>Poste : </strong> <span th:text="${loggedUser.post}"></span></li>
+            <li><strong>Salaire : </strong> <span th:text="${loggedUser.salary}"></span> €</li>
+            <li><strong>Département : </strong>
+                <span th:text="${loggedUser.department != null ? loggedUser.department.departmentName : 'Aucun'}"></span>
+            </li>
+
+            <li><strong>Projet(s) :</strong>
+                <ul>
+                    <li th:if="${loggedUser.projects == null || #lists.isEmpty(loggedUser.projects)}">Aucun</li>
+
+                    <li th:each="ep : ${loggedUser.projects}"
+                        th:text="${ep.project != null ? ep.project.nameProject : 'N/A'}">
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        <h2>Informations du compte</h2>
+        <ul>
+            <li><strong>Nom d'utilisateur :</strong>
+                <span th:text="${loggedUser.username}"></span>
+            </li>
+
+            <li><strong>Rôle(s) :</strong>
+                <ul>
+                    <li th:if="${loggedUser.roles == null || #lists.isEmpty(loggedUser.roles)}">Aucun</li>
+
+                    <li th:each="er : ${loggedUser.roles}"
+                        th:text="${er.role != null ? er.role.roleName : 'N/A'}">
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+</section>
+
+</body>
+</html>

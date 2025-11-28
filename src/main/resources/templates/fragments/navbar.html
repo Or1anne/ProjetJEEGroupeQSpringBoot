@@ -23,7 +23,7 @@
                 <a th:if="${loggedUser != null}" th:href="@{/profile}" class="navbar-item">Profil</a>
                 <a th:if="${loggedUser != null}" th:href="@{/logout}" class="navbar-item">Déconnexion</a>
 
-                <!-- Afficher uniquement si NON connecté -->
+                <!-- Afficher uniquement si non connecté -->
                 <a th:if="${loggedUser == null}" th:href="@{/login}" class="navbar-item">Connexion</a>
             </div>
         </div>

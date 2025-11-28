@@ -128,4 +128,20 @@ public class Employee {
     public void setDepartment(Department department) {
         this.department = department;
     }
+
+    public List<EmployeeProject> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(List<EmployeeProject> projects) {
+        this.projects = projects;
+    }
+
+    public List<EmployeeRole> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<EmployeeRole> roles) {
+        this.roles = roles;
+    }
 }
