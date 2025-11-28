@@ -25,6 +25,10 @@
 
 <div class="hero-body">
     <h2>Liste des employés</h2>
+
+    <!-- Message de succès -->
+    <div th:if="${success}" class="success-message" th:text="${success}"></div>
+
     <nav>
         <a class="btn" th:href="@{/employee/add}">Ajouter un employé</a>
     </nav>
@@ -46,17 +50,17 @@
             <td colspan="6">Aucun employé enregistré.</td>
         </tr>
         <!-- Boucle sur les employés -->
-        <tr th:each="employee : ${employees}"
-            th:onclick="'window.location.href=\'/employee/view/' + ${employee.id} + '\';'">
+        <tr th:each="employee : ${employees}">
             <td th:text="${employee.lastName} ?: ''"></td>
             <td th:text="${employee.firstName} ?: ''"></td>
             <td th:text="${employee.grade != null ? employee.grade.label : 'Non défini'}"></td>
             <td th:text="${employee.post} ?: ''"></td>
             <td th:text="${employee.department != null ? employee.department.departmentName : '-'}"></td>
             <td>
+                <a th:href="@{/employee/view/{id}(id=${employee.id})}">Voir</a> |
                 <a th:href="@{/employee/edit/{id}(id=${employee.id})}">Modifier</a> |
-                <a th:href="@{/employee(action='delete', id=${employee.id})}"
-                   th:onclick="return confirm('Supprimer cet employé ?');">Supprimer</a>
+                <a th:href="@{/employee/delete/{id}(id=${employee.id})}"
+                   onclick="return confirm('Supprimer cet employé ?');">Supprimer</a>
             </td>
         </tr>
         </tbody>
