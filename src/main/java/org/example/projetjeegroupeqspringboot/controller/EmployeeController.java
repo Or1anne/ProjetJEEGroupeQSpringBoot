@@ -10,8 +10,6 @@
     import org.springframework.web.bind.annotation.*;
     import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-    import java.util.List;
-
     @Controller
     @RequestMapping("/employee")
     public class EmployeeController {
@@ -34,6 +32,7 @@
             model.addAttribute("employee", new Employee());
             model.addAttribute("departments", departmentService.findAll());
             model.addAttribute("grades", Grade.values());
+            model.addAttribute("isEditMode", false);
             return "FormEmployee";
         }
 
@@ -44,6 +43,7 @@
             model.addAttribute("employee", employee);
             model.addAttribute("departments", departmentService.findAll());
             model.addAttribute("grades", Grade.values());
+            model.addAttribute("isEditMode", true);
             return "FormEmployee";
         }
 
@@ -64,8 +64,52 @@
 
         // Sauvegarde
         @PostMapping("/save")
-        public String saveEmployee(@ModelAttribute Employee employee) {
+        public String saveEmployee(
+                @RequestParam(required = false) Long id,
+                @RequestParam("lastname") String lastName,
+                @RequestParam("firstname") String firstName,
+                @RequestParam("grade") Grade grade,
+                @RequestParam(value = "post", required = false) String post,
+                @RequestParam(value = "salary", required = false) Double salary,
+                @RequestParam(value = "departmentId", required = false) Integer departmentId,
+                RedirectAttributes redirectAttributes) {
+
+            Employee employee;
+
+            // Si id existe, c'est une modification
+            if (id != null) {
+                employee = employeeService.findById(id);
+                if (employee == null) {
+                    redirectAttributes.addFlashAttribute("errorMessage", "Employé non trouvé");
+                    return "redirect:/employee";
+                }
+            } else {
+                // Sinon, c'est une création
+                employee = new Employee();
+            }
+
+            // Mise à jour des champs
+            employee.setLastName(lastName);
+            employee.setFirstName(firstName);
+            employee.setGrade(grade);
+            employee.setPost(post);
+            employee.setSalary(salary != null ? salary : 0.0);
+
+            // Gestion du département
+            if (departmentId != null) {
+                employee.setDepartment(departmentService.findById(Long.valueOf(departmentId)));
+            }
+
+            // Génération d'un username et password par défaut si nouveau
+            if (id == null) {
+                employee.setUsername(firstName.toLowerCase() + "." + lastName.toLowerCase());
+                employee.setPassword("password"); // À changer avec un vrai système de mot de passe
+            }
+
             employeeService.save(employee);
+            redirectAttributes.addFlashAttribute("success",
+                id != null ? "Employé modifié avec succès" : "Employé ajouté avec succès");
+
             return "redirect:/employee";
         }
     }

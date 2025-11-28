@@ -29,6 +29,12 @@
 <div class="hero-body">
     <h2>Liste des départements</h2>
 
+    <!-- Message de succès -->
+    <div th:if="${success}" class="success-message" th:text="${success}"></div>
+
+    <!-- Message d'erreur -->
+    <div th:if="${errorMessage}" class="error-message" th:text="${errorMessage}"></div>
+
     <nav>
         <a th:href="@{/departments/add}">Ajouter un département</a>
     </nav>
@@ -36,19 +42,18 @@
     <table class="table">
         <thead>
         <tr>
-            <th>ID</th>
             <th>Nom</th>
+            <th>Chef de département</th>
             <th>Action</th>
         </tr>
         </thead>
 
         <tbody>
         <tr th:each="dep : ${departments}"
-            th:onclick="'window.location.href=\'/departments/' + ${dep.id} + '\';'"
-            style="cursor:pointer">
+            th:onclick="'window.location.href=\'/departments/' + ${dep.id} + '\';'">
 
-            <td th:text="${dep.id}"></td>
             <td th:text="${dep.departmentName}"></td>
+            <td th:text="${dep.chefDepartment != null ? dep.chefDepartment.firstName + ' ' + dep.chefDepartment.lastName : 'Non assigné'}"></td>
 
             <td>
                 <a th:href="@{'/departments/edit/' + ${dep.id}}">Modifier</a> |
@@ -58,10 +63,9 @@
                 </a>
             </td>
         </tr>
-
         <!-- Si aucun département -->
         <tr th:if="${#lists.isEmpty(departments)}">
-            <td colspan="4" style="text-align:center;">Aucun département trouvé</td>
+            <td colspan="3" style="text-align:center;">Aucun département trouvé</td>
         </tr>
 
         </tbody>
