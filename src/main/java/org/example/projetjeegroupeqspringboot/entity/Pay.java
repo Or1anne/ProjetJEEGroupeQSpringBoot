@@ -21,7 +21,7 @@ public class Pay {
 
     @Nonnull
     @Column(name = "net")
-    private double salary_net;
+    private double salaryNet;
 
     @ManyToOne
     @Nonnull
@@ -34,12 +34,12 @@ public class Pay {
     public Pay() {}
 
     // Constructeur pour ajouter des employees
-    public Pay(Date date, double bonus, double deductions, double salary_net) {
+    public Pay(Date date, double bonus, double deductions, double salaryNet) {
 
         this.date = date;
         this.bonus = bonus;
         this.deductions = deductions;
-        this.salary_net = salary_net;
+        this.salaryNet = salaryNet;
 
     }
 
@@ -67,11 +67,11 @@ public class Pay {
     public void setDeductions(double deductions) {
         this.deductions = deductions;
     }
-    public double getSalary_net() {
-        return salary_net;
+    public double getsalaryNet() {
+        return salaryNet;
     }
-    public void setSalary_net(double salary_net) {
-        this.salary_net = salary_net;
+    public void setsalaryNet(double salaryNet) {
+        this.salaryNet = salaryNet;
     }
     public Employee getEmployee() { return employee;}
     public void setEmployee(Employee employee) {this.employee = employee;}

@@ -17,7 +17,6 @@ public class Department {
     @Column(name = "department_name", nullable = false, unique = true)
     private String departmentName;
 
-    // TODO transformer en @JoinColomn clée étrangere
     @ManyToOne
     @Nullable
     @JoinColumn(name = "id_chef_dep")

@@ -19,7 +19,7 @@ public class Project
 
     @Column(name = "name")
     @Nonnull
-    private String name_project;
+    private String nameProject;
 
     @Enumerated(EnumType.STRING)
     @Nonnull
@@ -35,8 +35,8 @@ public class Project
 
     public  Project() {}
 
-    public Project(String name_project, ProjectStatus status, Employee chefProj) {
-        this.name_project = name_project;
+    public Project(String nameProject, ProjectStatus status, Employee chefProj) {
+        this.nameProject = nameProject;
         this.status = status;
         this.ChefProj = chefProj;
 
@@ -47,12 +47,12 @@ public class Project
         return id;
     }
 
-    public String getName_project() {
-        return name_project;
+    public String getnameProject() {
+        return nameProject;
     }
 
-    public void setName_project(String name) {
-        this.name_project = name;
+    public void setnameProject(String name) {
+        this.nameProject = name;
     }
 
     public ProjectStatus getStatus() {
