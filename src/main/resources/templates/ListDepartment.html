@@ -36,8 +36,8 @@
     <table class="table">
         <thead>
         <tr>
-            <th>ID</th>
             <th>Nom</th>
+            <th>Chef de département</th>
             <th>Action</th>
         </tr>
         </thead>
@@ -47,8 +47,8 @@
             th:onclick="'window.location.href=\'/departments/' + ${dep.id} + '\';'"
             style="cursor:pointer">
 
-            <td th:text="${dep.id}"></td>
             <td th:text="${dep.departmentName}"></td>
+            <td th:text="${dep.chefDepartment != null ? dep.chefDepartment.firstName + ' ' + dep.chefDepartment.lastName : 'Non assigné'}"></td>
 
             <td>
                 <a th:href="@{'/departments/edit/' + ${dep.id}}">Modifier</a> |
@@ -58,10 +58,9 @@
                 </a>
             </td>
         </tr>
-
         <!-- Si aucun département -->
         <tr th:if="${#lists.isEmpty(departments)}">
-            <td colspan="4" style="text-align:center;">Aucun département trouvé</td>
+            <td colspan="3" style="text-align:center;">Aucun département trouvé</td>
         </tr>
 
         </tbody>

@@ -54,7 +54,7 @@
             <td th:text="${employee.post} ?: ''"></td>
             <td th:text="${employee.department != null ? employee.department.departmentName : '-'}"></td>
             <td>
-                <a th:href="@{/employee(action='edit', id=${employee.id})}">Modifier</a> |
+                <a th:href="@{/employee/edit/{id}(id=${employee.id})}">Modifier</a> |
                 <a th:href="@{/employee(action='delete', id=${employee.id})}"
                    th:onclick="return confirm('Supprimer cet employé ?');">Supprimer</a>
             </td>

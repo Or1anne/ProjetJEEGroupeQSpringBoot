@@ -24,9 +24,10 @@ public class DepartmentController {
     }
 
     @GetMapping("/add")
-    public String addDepartment(Model model) {
+    public String addDepartmentForm(Model model) {
         model.addAttribute("department", new Department());
         model.addAttribute("employees", employeeService.findAll());
+        model.addAttribute("isEditMode", false);
         return "FormDepartment";
     }
 
@@ -36,9 +37,36 @@ public class DepartmentController {
         return "redirect:/departments";
     }
 
+    @GetMapping("/edit/{id}")
+    public String editDepartmentForm(@PathVariable Long id, Model model) {
+        Department department = departmentService.findById(id);
+
+        if (department == null) {
+            return "redirect:/departments"; // sécurité
+        }
+
+        model.addAttribute("department", department);
+        model.addAttribute("employees", employeeService.findAll());
+        model.addAttribute("isEditMode", true);
+
+        return "FormDepartment";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String updateDepartment(@PathVariable Long id, @ModelAttribute Department department) {
+        departmentService.save(department);
+        return "redirect:/departments";
+    }
+
     @GetMapping("/{id}")
     public String viewDepartment(@PathVariable Long id, Model model) {
-        model.addAttribute("department", departmentService.findById(id));
+        Department department = departmentService.findById(id);
+
+        if (department == null) {
+            return "redirect:/departments";
+        }
+
+        model.addAttribute("department", department);
         return "ViewDepartment";
     }
 }

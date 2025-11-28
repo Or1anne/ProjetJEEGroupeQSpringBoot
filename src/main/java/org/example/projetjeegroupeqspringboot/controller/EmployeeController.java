@@ -10,8 +10,6 @@
     import org.springframework.web.bind.annotation.*;
     import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-    import java.util.List;
-
     @Controller
     @RequestMapping("/employee")
     public class EmployeeController {
@@ -34,6 +32,7 @@
             model.addAttribute("employee", new Employee());
             model.addAttribute("departments", departmentService.findAll());
             model.addAttribute("grades", Grade.values());
+            model.addAttribute("isEditMode", false);
             return "FormEmployee";
         }
 
@@ -44,6 +43,7 @@
             model.addAttribute("employee", employee);
             model.addAttribute("departments", departmentService.findAll());
             model.addAttribute("grades", Grade.values());
+            model.addAttribute("isEditMode", true);
             return "FormEmployee";
         }
 

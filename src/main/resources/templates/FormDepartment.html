@@ -2,12 +2,11 @@
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Ajouter un département</title>
+    <title>Formulaire département</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 
-<!-- ==== HEADER / NAVBAR ==== -->
 <div class="hero-head">
     <nav class="navbar">
         <div class="container">
@@ -29,32 +28,50 @@
     </nav>
 </div>
 
-<!-- ==== FORMULAIRE ==== -->
 <div class="hero-body">
+
     <nav>
         <a th:href="@{/departments}">Liste des départements</a>
     </nav>
 
     <div class="form-container">
-        <form th:action="@{/departments/add}" th:object="${department}" method="post">
-            <h2>Ajouter un département</h2>
+        <form th:action="${isEditMode} ? @{/departments/save} : @{/departments/add}"
+              th:object="${department}"
+              method="post">
 
+            <!-- Titre dynamique -->
+            <h2 th:text="${isEditMode} ? 'Modifier le département : ' + ${department.departmentName}
+                           : 'Ajouter un département'">
+            </h2>
+
+
+            <!-- ID caché si modification -->
+            <input type="hidden" th:if="${isEditMode}" th:field="*{id}"/>
+
+            <!-- NOM -->
             <p>
                 <label for="departmentName">Nom du département</label>
                 <input type="text" id="departmentName" th:field="*{departmentName}" required>
             </p>
 
+            <!-- CHEF -->
             <p>
                 <label for="chefDepartment">Chef de département</label>
                 <select id="chefDepartment" th:field="*{chefDepartment}" required>
                     <option value="">-- Choisir un chef de département --</option>
-                    <option th:each="e : ${employees}" th:value="${e}" th:text="${e.fullName}"></option>
+
+                    <option th:each="e : ${employees}"
+                            th:value="${e.id}"
+                            th:selected="${department.chefDepartment != null and department.chefDepartment.id == e.id}"
+                            th:text="${e.firstName + ' ' + e.lastName}">
+                    </option>
                 </select>
             </p>
 
             <input type="submit" value="Enregistrer">
         </form>
     </div>
+
 </div>
 
 </body>

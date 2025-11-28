@@ -31,37 +31,29 @@
 
     <div class="form-container">
 
-
-        <!-- Message d'erreur -->
         <div th:if="${errorMessage}" class="error-message"
              th:text="${errorMessage}"></div>
 
-        <!-- FORMULAIRE -->
-        <form th:action="@{/employee}" method="post" class="employee-form">
+        <form th:action="@{/employee/save}" method="post">
         <!-- Titre : Ajouter ou Modifier -->
-        <h2 th:text="${isEditMode} ? 'Modifier ' + ${employee.lastName} + ' ' + ${employee.firstName} : 'Ajouter un employé'"></h2>
+        <h2 th:text="${isEditMode} ? 'Modifier ' + ${employee.firstName} + ' ' + ${employee.lastName} : 'Ajouter un employé'"></h2>
 
-            <!-- Mode (edit/add) -->
             <input type="hidden" name="action" th:value="${isEditMode} ? 'edit' : 'add'"/>
 
-            <!-- ID si edit -->
             <input type="hidden" name="id" th:if="${isEditMode}" th:value="${employee.id}"/>
 
-            <!-- NOM -->
             <p>
                 <label for="lastname">Nom</label>
                 <input type="text" id="lastname" name="lastname"
                        th:value="${employee.lastName}" required>
             </p>
 
-            <!-- PRENOM -->
             <p>
                 <label for="firstname">Prénom</label>
                 <input type="text" id="firstname" name="firstname"
                        th:value="${employee.firstName}" required>
             </p>
 
-            <!-- GRADE -->
             <p>
                 <label for="grade">Grade</label>
                 <select id="grade" name="grade" required>
@@ -75,21 +67,18 @@
                 </select>
             </p>
 
-            <!-- POSTE -->
             <p>
                 <label for="post">Poste</label>
                 <input type="text" id="post" name="post"
                        th:value="${employee.post}">
             </p>
 
-            <!-- SALAIRE -->
             <p>
                 <label for="salary">Salaire</label>
                 <input type="number" id="salary" name="salary" step="0.01"
                        th:value="${employee.salary}">
             </p>
 
-            <!-- DEPARTEMENT -->
             <p>
                 <label for="department">Département</label>
 
