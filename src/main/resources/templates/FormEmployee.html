@@ -48,7 +48,7 @@
                     <option th:each="g : ${grades}"
                             th:value="${g}"
                             th:selected="${employee.grade} == ${g}"
-                            th:text="${g}">
+                            th:text="${g.label}">
                     </option>
                 </select>
             </p>

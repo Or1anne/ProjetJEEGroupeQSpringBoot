@@ -2,7 +2,9 @@ package org.example.projetjeegroupeqspringboot.service;
 
 import org.example.projetjeegroupeqspringboot.entity.Department;
 import org.example.projetjeegroupeqspringboot.repository.DepartmentRepository;
+import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,7 +16,7 @@ public class DepartmentService {
     private DepartmentRepository departmentRepository;
 
     public List<Department> findAll() {
-        return departmentRepository.findAll();
+        return departmentRepository.findAll(Sort.by("departmentName"));
     }
 
     public Department findById(Long id) {

@@ -4,6 +4,7 @@ import org.example.projetjeegroupeqspringboot.entity.Employee;
 //import org.example.projetjeegroupeqspringboot.entity.EmployeeRepository;
 import org.example.projetjeegroupeqspringboot.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public class EmployeeService {
     private EmployeeRepository employeeRepository;
 
     public List<Employee> findAll() {
-        return employeeRepository.findAll();
+        return employeeRepository.findAll(Sort.by("lastName"));
     }
 
     public Employee findById(Long id) {
@@ -25,11 +26,9 @@ public class EmployeeService {
         employeeRepository.save(employee);
     }
 
-    public boolean deleteById(Long id) {
+    public void deleteById(Long id) {
         if (employeeRepository.existsById(id)) {
             employeeRepository.deleteById(id);
-            return true;
         }
-        return false;
     }
 }
