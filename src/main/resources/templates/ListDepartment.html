@@ -50,8 +50,7 @@
 
         <tbody>
         <tr th:each="dep : ${departments}"
-            th:onclick="'window.location.href=\'/departments/' + ${dep.id} + '\';'"
-            style="cursor:pointer">
+            th:onclick="'window.location.href=\'/departments/' + ${dep.id} + '\';'">
 
             <td th:text="${dep.departmentName}"></td>
             <td th:text="${dep.chefDepartment != null ? dep.chefDepartment.firstName + ' ' + dep.chefDepartment.lastName : 'Non assigné'}"></td>
