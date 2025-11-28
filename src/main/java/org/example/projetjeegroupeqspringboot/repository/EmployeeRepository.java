@@ -2,6 +2,7 @@ package org.example.projetjeegroupeqspringboot.repository;
 
 import org.example.projetjeegroupeqspringboot.entity.Department;
 import org.example.projetjeegroupeqspringboot.entity.Employee;
+import org.example.projetjeegroupeqspringboot.entity.EmployeeProject;
 import org.example.projetjeegroupeqspringboot.entity.Project;
 import org.example.projetjeegroupeqspringboot.entity.enumeration.Grade;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,6 +15,6 @@ public interface EmployeeRepository extends JpaRepository<Employee,Long> {
     List<Employee> findByUsername(String username);
     List<Employee> findByGrade(Grade grade);
     List<Employee> findByPost(String post);
-    List<Employee> findByProjects(List<Project> projects);
+    List<Employee> findByProjects(List<EmployeeProject> projects);
     List<Employee> findByDepartment(Department department);
 }

@@ -11,5 +11,5 @@ import java.util.List;
 @Repository
 public interface DepartmentRepository extends JpaRepository<Department, Long> {
     List<Department> findByChefDepartment(Employee chefDepartment);
-    // ne pas oublié le members
+    List<Department> findByEmployees(List<Employee> employee);
 }
