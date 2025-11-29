@@ -6,16 +6,16 @@ import java.io.Serializable;
 
 @Embeddable
 public class EmployeeRoleId implements Serializable {
-    private Integer idEmployee;
-    private Integer idRole;
+    private Integer id_employee;
+    private Integer id_role;
 
     public EmployeeRoleId() {}
 
     public Integer getIdEmployee() {
-        return idEmployee;
+        return id_employee;
     }
 
     public Integer getIdRole() {
-        return idRole;
+        return id_role;
     }
 }

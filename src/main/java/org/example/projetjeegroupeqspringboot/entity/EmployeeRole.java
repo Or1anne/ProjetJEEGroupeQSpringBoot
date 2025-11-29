@@ -10,12 +10,12 @@ public class EmployeeRole {
     private EmployeeRoleId id;
 
     @ManyToOne
-    @MapsId("idEmployee")
+    @MapsId("id_employee")
     @JoinColumn(name = "id_employee")
     private Employee employee;
 
     @ManyToOne
-    @MapsId("idRole")
+    @MapsId("id_role")
     @JoinColumn(name = "id_role")
     private Role role;
 

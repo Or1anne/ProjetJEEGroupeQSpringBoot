@@ -1,7 +1,6 @@
 package org.example.projetjeegroupeqspringboot.entity;
 
 import org.example.projetjeegroupeqspringboot.entity.embededId.EmployeeProjectId;
-import org.example.projetjeegroupeqspringboot.entity.embededId.EmployeeRoleId;
 import jakarta.persistence.*;
 
 @Entity
@@ -11,12 +10,12 @@ public class EmployeeProject {
     private EmployeeProjectId id;
 
     @ManyToOne
-    @MapsId("idEmployee")
+    @MapsId("id_employee")
     @JoinColumn(name = "id_employee")
     private Employee employee;
 
     @ManyToOne
-    @MapsId("idProject")
+    @MapsId("id_project")
     @JoinColumn(name = "id_project")
     private Project project;
 

@@ -6,16 +6,16 @@ import java.io.Serializable;
 
 @Embeddable
 public class EmployeeProjectId implements Serializable {
-    private Integer idEmployee;
-    private Integer idProject;
+    private Integer id_employee;
+    private Integer id_project;
 
     public EmployeeProjectId() {}
 
     public Integer getIdEmployee() {
-        return idEmployee;
+        return id_employee;
     }
 
     public Integer getIdProject() {
-        return idProject;
+        return id_project;
     }
 }
