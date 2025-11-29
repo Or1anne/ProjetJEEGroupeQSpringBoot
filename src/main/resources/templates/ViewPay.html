@@ -38,11 +38,11 @@
         </ul>
 
         <div class="form-action" style="display:flex;gap:10px;margin-top:20px;">
-            <a class="button" th:href="@{/pay/edit(payId=${pay.id})}">Modifier</a>
-            <a class="button" th:href="@{/pay/pdf(payId=${pay.id})}">Imprimer</a>
+            <a class="button" th:href="@{/pay/edit/{id}(id=${pay.id})}">Modifier</a>
+            <a class="button" th:href="@{/pay/pdf/{id}(id=${pay.id})}" target="_blank">Imprimer PDF</a>
             <a class="button" th:href="@{/pay}">Retour</a>
             <a class="button"
-               th:href="@{/pay/delete(payId=${pay.id})}"
+               th:href="@{/pay/delete/{id}(id=${pay.id})}"
                onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette fiche de paie ?');">
                 Supprimer
             </a>

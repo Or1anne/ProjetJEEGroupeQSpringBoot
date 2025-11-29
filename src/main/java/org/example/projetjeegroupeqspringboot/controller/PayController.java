@@ -1,17 +1,21 @@
 package org.example.projetjeegroupeqspringboot.controller;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.example.projetjeegroupeqspringboot.entity.Employee;
 import org.example.projetjeegroupeqspringboot.entity.Pay;
 import org.example.projetjeegroupeqspringboot.repository.EmployeeRepository;
 import org.example.projetjeegroupeqspringboot.repository.PayRepository;
+import org.example.projetjeegroupeqspringboot.util.PayPdfGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.OutputStream;
 import java.sql.Date;
 import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
@@ -163,11 +167,36 @@ public class PayController {
         return "redirect:/pay";
     }
 
-    // TODO: Générer PDF (à implémenter plus tard)
-    @GetMapping("/pdf")
-    public String generatePdf(@RequestParam Long payId) {
-        // À implémenter : génération de PDF
-        return "redirect:/pay/view/" + payId;
+    // Générer et télécharger le PDF de la fiche de paie
+    @GetMapping("/pdf/{id}")
+    public void generatePdf(@PathVariable Long id, HttpServletResponse response) {
+        try {
+            Pay pay = payRepository.findById(id).orElse(null);
+
+            if (pay == null) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Fiche de paie introuvable");
+                return;
+            }
+
+            // Configuration de la réponse HTTP
+            response.setContentType("application/pdf");
+
+            // Nom du fichier : FichePaie_NomPrenom_MoisAnnee.pdf
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM_yyyy", java.util.Locale.FRENCH);
+            String monthYear = pay.getDate().toLocalDate().format(formatter);
+            String fileName = "FichePaie_" + pay.getEmployee().getLastName() + "_" +
+                            pay.getEmployee().getFirstName() + "_" + monthYear + ".pdf";
+
+            response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
+
+            // Générer le PDF
+            OutputStream outputStream = response.getOutputStream();
+            PayPdfGenerator.generatePayPdf(pay, outputStream);
+            outputStream.flush();
+
+        } catch (Exception e) {
+            throw new RuntimeException("Erreur lors de la génération du PDF", e);
+        }
     }
 }
 
