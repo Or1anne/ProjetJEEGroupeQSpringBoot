@@ -7,7 +7,7 @@
 </head>
 <body>
 <!-- Barre de navigation -->
-<div th:replace="fragments/navbar :: navbar"></div>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
 
 <div class="hero-body">
     <header>
@@ -50,6 +50,14 @@
                 <ul>
                     <li><a th:href="@{/pay}">Liste des fiches de paie</a></li>
                     <li><a th:href="@{/pay/add}">Créer une fiche de paie</a></li>
+                </ul>
+            </div>
+
+            <!-- === Statistiques === -->
+            <div class="card">
+                <h2>Statistiques</h2>
+                <ul>
+                    <li><a th:href="@{/report}">Rapports & Statistiques</a></li>
                 </ul>
             </div>
 
