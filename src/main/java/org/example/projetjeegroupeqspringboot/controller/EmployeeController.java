@@ -101,10 +101,11 @@
                 employee.setDepartment(departmentService.findById(Long.valueOf(departmentId)));
             }
 
-            // Génération d'un username et password par défaut si nouveau
+            // Génération automatique du username et password pour un nouvel employé
             if (id == null) {
-                employee.setUsername(firstName.toLowerCase() + "." + lastName.toLowerCase());
-                employee.setPassword("password"); // À changer avec un vrai système de mot de passe
+                String username = employeeService.generateUniqueUsername(firstName, lastName);
+                employee.setUsername(username);
+                employee.setPassword(employeeService.getDefaultPassword());
             }
 
             employeeService.save(employee);

@@ -18,4 +18,6 @@ public interface EmployeeRepository extends JpaRepository<Employee,Long> {
     List<Employee> findByPost(String post);
     List<Employee> findByProjects(List<EmployeeProject> projects);
     List<Employee> findByDepartment(Department department);
+    boolean existsByUsername(String username);
+    List<Employee> findByUsernameStartingWith(String usernamePrefix);
 }
