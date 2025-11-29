@@ -38,8 +38,7 @@
             <p>
                 <label for="employee">Employé</label>
                 <select id="employee" name="employeeId" required>
-                    <option value="">-- Sélectionner --</option>
-
+                    <option value="">-- Sélectionner un employé --</option>
                     <option th:each="emp : ${employees}"
                             th:value="${emp.id}"
                             th:text="${emp.lastName} + ' ' + ${emp.firstName}">
@@ -47,7 +46,7 @@
                 </select>
             </p>
 
-            <input type="submit" value="Enregistrer">
+            <input type="submit" value="Affecter l'employé au projet">
         </form>
     </div>
 

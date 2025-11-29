@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 @Table(name = "employee_project")
 public class EmployeeProject {
     @EmbeddedId
-    private EmployeeProjectId id;
+    private EmployeeProjectId id = new EmployeeProjectId();
 
     @ManyToOne
     @MapsId("id_employee")

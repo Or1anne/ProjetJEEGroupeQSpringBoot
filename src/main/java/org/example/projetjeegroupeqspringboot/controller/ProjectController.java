@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpSession;
 import org.example.projetjeegroupeqspringboot.entity.Employee;
 import org.example.projetjeegroupeqspringboot.entity.Project;
 import org.example.projetjeegroupeqspringboot.entity.enumeration.ProjectStatus;
+import org.example.projetjeegroupeqspringboot.service.AssignService;
 import org.example.projetjeegroupeqspringboot.service.EmployeeService;
 import org.example.projetjeegroupeqspringboot.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class ProjectController {
 
     @Autowired
     private EmployeeService employeeService;
+
+    @Autowired
+    private AssignService assignService;
 
     @GetMapping
     public String listProjects(Model model, HttpSession session) {
@@ -120,6 +124,31 @@ public class ProjectController {
         return "redirect:/projects";
     }
 
+    // Page d'affectation
+    @GetMapping("/assign")
+    public String showAssignForm(@RequestParam(required = false) Long projectId, Model model, HttpSession session) {
+        model.addAttribute("loggedUser", session.getAttribute("loggedUser"));
+        model.addAttribute("employees", employeeService.findAll());
+        model.addAttribute("projects", projectService.findAll());
+
+        if (projectId != null) {
+            model.addAttribute("selectedProjectId", projectId);
+        }
+
+        return "AssignEmployeeProject";
+    }
+
+    // Soumission du formulaire d'affectation
+    @PostMapping("/assign")
+    public String assignEmployeesToProject(
+            @RequestParam Long employeeId,
+            @RequestParam Long projectId,
+            RedirectAttributes redirectAttributes) {
+
+        assignService.assignEmployeeToProject(employeeId, projectId);
+        redirectAttributes.addFlashAttribute("success", "Employé affecté au projet avec succès");
+        return "redirect:/projects";
+    }
 
 }
 
