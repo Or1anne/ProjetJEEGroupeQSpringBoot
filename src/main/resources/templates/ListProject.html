@@ -39,7 +39,7 @@
 
             <td th:text="${project.nameProject}"></td>
             <td th:text="${project.chefProj != null ? project.chefProj.firstName + ' ' + project.chefProj.lastName : 'Non assigné'}"></td>
-            <td th:text="${project.status}"></td>
+            <td th:text="${project.status.label}"></td>
 
             <td>
                 <a th:href="@{'/projects/assign?projectId=' + ${project.id}}">Affecter un employé</a> |
