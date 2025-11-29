@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Fiche de paie</title>
+    <link rel="stylesheet" th:href="@{/CSS/style.css}">
+</head>
+<body>
+
+<!-- Barre de navigation -->
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<div class="hero-body">
+    <nav>
+        <a th:href="@{/pay}">Liste des fiches de paie</a>
+    </nav>
+    <div class="form-container">
+
+        <div th:if="${errorMessage}" class="error-message"
+             th:text="${errorMessage}"></div>
+
+        <form th:action="@{/pay}" method="post" class="form">
+            <h2 th:text="${isEditMode} ? 'Modifier la fiche de paie' : 'Créer une fiche de paie'"></h2>
+
+            <input type="hidden" name="payId" th:if="${isEditMode}" th:value="${pay.id}"/>
+
+            <label for="employee">Employé</label>
+
+            <!-- Champ caché pour envoyer l'employeeId en mode édition -->
+            <input type="hidden" name="employeeId"
+                   th:if="${isEditMode && pay != null && pay.employee != null}"
+                   th:value="${pay.employee.id}">
+
+            <!-- Si on a un employé préfixé (depuis ViewEmployee) -->
+            <div th:if="${prefillEmployee != null}">
+                <input type="hidden" name="employeeId" th:value="${prefillEmployee.id}">
+                <input type="text" th:value="${prefillEmployee.firstName + ' ' + prefillEmployee.lastName}" disabled>
+            </div>
+
+            <!-- Affichage en mode édition (désactivé mais visible) -->
+            <div th:if="${isEditMode && pay != null && pay.employee != null && prefillEmployee == null}">
+                <input type="text"
+                       th:value="${pay.employee.firstName + ' ' + pay.employee.lastName}"
+                       disabled>
+            </div>
+
+            <!-- Sinon, choix manuel en mode création -->
+            <select id="employee" name="employeeId" required
+                    th:if="${!isEditMode && prefillEmployee == null}">
+                <option value="">-- Sélectionner un employé --</option>
+                <option th:each="emp : ${employees}"
+                        th:value="${emp.id}"
+                        th:text="${emp.firstName + ' ' + emp.lastName}">
+                </option>
+            </select>
+
+            <label for="month">Mois concerné</label>
+            <input type="month" id="month" name="month"
+                   th:value="${pay != null && pay.date != null ? #strings.substring(pay.date.toString(), 0, 7) : ''}"
+                   required>
+
+            <label for="baseSalary">Salaire de base (€)</label>
+            <input type="number" id="baseSalary" name="baseSalary"
+                   step="0.01" min="0"
+                   th:value="${isEditMode && pay != null ? (pay.salaryNet - pay.bonus + pay.deductions) : (prefillEmployee != null ? prefillEmployee.salary : '')}"
+                   th:readonly="${prefillEmployee != null && !isEditMode}"
+                   required>
+
+            <label for="bonus">Primes (€)</label>
+            <input type="number" id="bonus" name="bonus"
+                   step="0.01" min="0"
+                   th:value="${pay != null && pay.bonus != null ? pay.bonus : 0}">
+
+            <label for="deductions">Déductions (€)</label>
+            <input type="number" id="deductions" name="deductions"
+                   step="0.01" min="0"
+                   th:value="${pay != null && pay.deductions != null ? pay.deductions : 0}">
+
+
+
+            <div id="result">
+                <p><strong>Net à payer :</strong> <span id="netValue">0.00</span> €</p>
+            </div>
+
+            <!-- Champ caché pour envoyer le salaire net calculé au serveur -->
+            <input type="hidden" id="salaryNet" name="salaryNet"
+                   th:value="${pay != null && pay.salaryNet != null ? pay.salaryNet : 0}">
+
+            <input type="submit" value="Enregistrer" onclick="return validateForm()">
+        </form>
+    </div>
+</div>
+
+<script>
+    function calculateNet() {
+        const base = parseFloat(document.querySelector('[name=baseSalary]').value) || 0;
+        const bonus = parseFloat(document.querySelector('[name=bonus]').value) || 0;
+        const deductions = parseFloat(document.querySelector('[name=deductions]').value) || 0;
+        const net = base + bonus - deductions;
+
+        // Afficher le résultat
+        document.getElementById('netValue').textContent = net.toFixed(2);
+
+        // Mettre à jour le champ caché
+        document.getElementById('salaryNet').value = net.toFixed(2);
+    }
+
+    // Validation avant soumission
+    function validateForm() {
+        calculateNet(); // S'assurer que le net est calculé
+        const net = parseFloat(document.getElementById('salaryNet').value);
+        if (net <= 0) {
+            alert('Veuillez calculer le salaire net avant de soumettre');
+            return false;
+        }
+        return true;
+    }
+
+    // Calcul automatique au chargement et sur changement des valeurs
+    window.addEventListener('DOMContentLoaded', function() {
+        calculateNet();
+
+        // Recalculer automatiquement quand les valeurs changent
+        document.querySelector('[name=baseSalary]').addEventListener('input', calculateNet);
+        document.querySelector('[name=bonus]').addEventListener('input', calculateNet);
+        document.querySelector('[name=deductions]').addEventListener('input', calculateNet);
+    });
+</script>
+
+</body>
+</html>
+

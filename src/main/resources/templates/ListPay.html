@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des fiches de paie</title>
+    <link rel="stylesheet" th:href="@{/CSS/style.css}">
+</head>
+<body>
+
+<!-- Barre de navigation -->
+<div th:replace="fragments/navbar :: navbar"></div>
+
+
+
+<div class="hero-body">
+
+    <h2 th:if="${currentEmployee != null}">
+        Historique des paies de
+        <span th:text="${currentEmployee.firstName}"></span>
+        <span th:text="${currentEmployee.lastName}"></span>
+    </h2>
+
+    <h2 th:unless="${currentEmployee != null}">
+        Liste globale des fiches de paie
+    </h2>
+
+    <nav>
+        <a th:href="@{/pay/add(employeeId=${currentEmployee != null ? currentEmployee.id : null})}">
+            Créer une fiche de paie
+        </a>
+    </nav>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <!-- Colonne Employé seulement en mode global -->
+            <th th:if="${currentEmployee == null}">Employé</th>
+
+            <th>Date</th>
+            <th>Net à payer (€)</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+        <!-- Si aucune paie -->
+        <tr th:if="${pays == null or #lists.isEmpty(pays)}">
+            <td colspan="5" style="text-align:center;">Aucune fiche de paie trouvée.</td>
+        </tr>
+
+        <!-- Sinon liste -->
+        <tr th:each="pay : ${pays}"
+            th:onclick="|window.location.href='/pay/view/${pay.id}';|"
+            style="cursor: pointer;">
+
+            <!-- Colonne Employé seulement en mode global -->
+            <td th:if="${currentEmployee == null}">
+                <span th:text="${pay.employee?.firstName}"></span>
+                <span th:text="${pay.employee?.lastName}"></span>
+            </td>
+
+            <td th:text="${pay.date != null ? #dates.format(pay.date,'dd/MM/yyyy') : '-'}"></td>
+
+            <td><strong th:text="${#numbers.formatDecimal(pay.salaryNet, 1, 'COMMA', 2, 'POINT')} + ' €'"></strong></td>
+
+            <td>
+                <a th:href="@{/pay/edit/{id}(id=${pay.id})}">Modifier</a> |
+                <a th:href="@{/pay/pdf/{id}(id=${pay.id})}">PDF</a> |
+                <a th:href="@{/pay/delete/{id}(id=${pay.id})}"
+                   onclick="return confirm('Supprimer cette fiche ?');">Supprimer</a>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+
+</div>
+
+</body>
+</html>

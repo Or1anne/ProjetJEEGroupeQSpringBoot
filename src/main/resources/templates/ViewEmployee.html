@@ -47,7 +47,7 @@
         <div class="form-action" style="display:flex;gap:10px;margin-top:12px;">
             <a class="button" th:href="@{/employee(action='edit', id=${employee.id})}">Modifier</a>
             <a class="button" th:href="@{/employee}">Retour</a>
-            <a class="button" th:href="@{/listPay}">Historique des paies</a>
+            <a class="button" th:href="@{/pay(employeeId=${employee.id})}">Historique des paies</a>
         </div>
     </div>
 </section>

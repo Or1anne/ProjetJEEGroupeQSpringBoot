@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Détails de la fiche de paie</title>
+    <link rel="stylesheet" th:href="@{/CSS/style.css}">
+</head>
+<body>
+
+<!-- Barre de navigation -->
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<div class="hero-body">
+    <div class="card">
+        <h2>Fiche de paie - Détails</h2>
+
+        <h3>Informations de l'employé</h3>
+        <ul>
+            <li><strong>Nom :</strong> <span th:text="${pay.employee.lastName}"></span></li>
+            <li><strong>Prénom :</strong> <span th:text="${pay.employee.firstName}"></span></li>
+            <li><strong>Poste :</strong> <span th:text="${pay.employee.post}"></span></li>
+        </ul>
+
+        <h3>Détails de la paie</h3>
+        <ul>
+            <li><strong>Date :</strong>
+                <span th:text="${pay.date != null ? #dates.format(pay.date,'dd/MM/yyyy') : '-'}"></span>
+            </li>
+            <li><strong>Salaire net :</strong>
+                <span th:text="${#numbers.formatDecimal(pay.salaryNet, 1, 'COMMA', 2, 'POINT')} + ' €'"></span>
+            </li>
+            <li><strong>Bonus :</strong>
+                <span th:text="${#numbers.formatDecimal(pay.bonus, 1, 'COMMA', 2, 'POINT')} + ' €'"></span>
+            </li>
+            <li><strong>Déductions :</strong>
+                <span th:text="${#numbers.formatDecimal(pay.deductions, 1, 'COMMA', 2, 'POINT')} + ' €'"></span>
+            </li>
+        </ul>
+
+        <div class="form-action" style="display:flex;gap:10px;margin-top:20px;">
+            <a class="button" th:href="@{/pay/edit(payId=${pay.id})}">Modifier</a>
+            <a class="button" th:href="@{/pay/pdf(payId=${pay.id})}">Imprimer</a>
+            <a class="button" th:href="@{/pay}">Retour</a>
+            <a class="button"
+               th:href="@{/pay/delete(payId=${pay.id})}"
+               onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette fiche de paie ?');">
+                Supprimer
+            </a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+

@@ -44,7 +44,7 @@ public class Pay {
     }
 
     public int getId() {
-        return 0;
+        return id;
     }
     public void setId(int id) {
         this.id = id;
@@ -67,10 +67,10 @@ public class Pay {
     public void setDeductions(double deductions) {
         this.deductions = deductions;
     }
-    public double getsalaryNet() {
+    public double getSalaryNet() {
         return salaryNet;
     }
-    public void setsalaryNet(double salaryNet) {
+    public void setSalaryNet(double salaryNet) {
         this.salaryNet = salaryNet;
     }
     public Employee getEmployee() { return employee;}
