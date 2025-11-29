@@ -1,10 +1,18 @@
 package org.example.projetjeegroupeqspringboot.service;
 
+import org.example.projetjeegroupeqspringboot.entity.Department;
 import org.example.projetjeegroupeqspringboot.entity.Employee;
+import org.example.projetjeegroupeqspringboot.entity.Project;
+import org.example.projetjeegroupeqspringboot.repository.DepartmentRepository;
+import org.example.projetjeegroupeqspringboot.repository.EmployeeProjectRepository;
 import org.example.projetjeegroupeqspringboot.repository.EmployeeRepository;
+import org.example.projetjeegroupeqspringboot.repository.EmployeeRoleRepository;
+import org.example.projetjeegroupeqspringboot.repository.PayRepository;
+import org.example.projetjeegroupeqspringboot.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.Normalizer;
 import java.util.List;
@@ -13,6 +21,21 @@ import java.util.List;
 public class EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
+
+    @Autowired
+    private PayRepository payRepository;
+
+    @Autowired
+    private EmployeeProjectRepository employeeProjectRepository;
+
+    @Autowired
+    private EmployeeRoleRepository employeeRoleRepository;
+
+    @Autowired
+    private DepartmentRepository departmentRepository;
+
+    @Autowired
+    private ProjectRepository projectRepository;
 
     public List<Employee> findAll() {
         return employeeRepository.findAll(Sort.by("lastName"));
@@ -26,10 +49,49 @@ public class EmployeeService {
         employeeRepository.save(employee);
     }
 
+    /**
+     * Supprime un employé et toutes ses références dans la base de données
+     * - Retire l'employé comme chef de département (met à null)
+     * - Retire l'employé comme chef de projet (met à null)
+     * - Supprime tous les rôles de l'employé (table employee_role)
+     * - Supprime toutes les fiches de paie de l'employé
+     * - Retire l'employé de tous les projets (table employee_project)
+     * - Supprime l'employé
+     */
+    @Transactional
     public void deleteById(Long id) {
-        if (employeeRepository.existsById(id)) {
-            employeeRepository.deleteById(id);
+        if (!employeeRepository.existsById(id)) {
+            return;
         }
+
+        // 1. Retirer l'employé comme chef de département (avant toute suppression)
+        List<Department> departmentsManaged = departmentRepository.findByChefDepartmentId(id);
+        for (Department dept : departmentsManaged) {
+            dept.setChefDepartment(null);
+            departmentRepository.save(dept);
+        }
+
+        // 2. Retirer l'employé comme chef de projet (avant toute suppression)
+        List<Project> projectsManaged = projectRepository.findByChefProjId(id);
+        for (Project project : projectsManaged) {
+            project.setChefProj(null);
+            projectRepository.save(project);
+        }
+
+        // 3. Supprimer tous les rôles de l'employé (table employee_role)
+        employeeRoleRepository.deleteByEmployeeId(id);
+
+        // 4. Supprimer toutes les fiches de paie de l'employé
+        payRepository.deleteByEmployeeId(id);
+
+        // 5. Supprimer toutes les affectations de l'employé aux projets (table employee_project)
+        employeeProjectRepository.deleteByEmployeeId(id);
+
+        // 6. Forcer le flush pour s'assurer que toutes les suppressions sont effectuées
+        employeeRepository.flush();
+
+        // 7. Supprimer l'employé
+        employeeRepository.deleteById(id);
     }
 
     /**
@@ -44,7 +106,7 @@ public class EmployeeService {
         String cleanFirstName = removeAccents(firstName.trim().toLowerCase());
         String cleanLastName = removeAccents(lastName.trim().toLowerCase());
 
-        String baseUsername = cleanFirstName.substring(0, 1) + cleanLastName;
+        String baseUsername = cleanFirstName.charAt(0) + cleanLastName;
 
         if (!employeeRepository.existsByUsername(baseUsername)) {
             return baseUsername;

@@ -1,8 +1,8 @@
 package org.example.projetjeegroupeqspringboot.repository;
 
 import org.example.projetjeegroupeqspringboot.entity.Employee;
-import org.example.projetjeegroupeqspringboot.entity.EmployeeProject;
-import org.example.projetjeegroupeqspringboot.entity.embededId.EmployeeProjectId;
+import org.example.projetjeegroupeqspringboot.entity.EmployeeRole;
+import org.example.projetjeegroupeqspringboot.entity.embededId.EmployeeRoleId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -12,18 +12,18 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface EmployeeProjectRepository extends JpaRepository<EmployeeProject, EmployeeProjectId> {
+public interface EmployeeRoleRepository extends JpaRepository<EmployeeRole, EmployeeRoleId> {
 
     /**
-     * Trouve toutes les affectations d'un employé
+     * Trouve tous les rôles d'un employé
      */
-    List<EmployeeProject> findByEmployee(Employee employee);
+    List<EmployeeRole> findByEmployee(Employee employee);
 
     /**
-     * Supprime toutes les affectations d'un employé aux projets
+     * Supprime tous les rôles d'un employé
      */
     @Modifying
-    @Query("DELETE FROM EmployeeProject ep WHERE ep.employee.id = :employeeId")
+    @Query("DELETE FROM EmployeeRole er WHERE er.employee.id = :employeeId")
     void deleteByEmployeeId(@Param("employeeId") Long employeeId);
 }
 
