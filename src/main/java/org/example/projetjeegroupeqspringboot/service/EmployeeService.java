@@ -2,13 +2,17 @@ package org.example.projetjeegroupeqspringboot.service;
 
 import org.example.projetjeegroupeqspringboot.entity.Department;
 import org.example.projetjeegroupeqspringboot.entity.Employee;
+import org.example.projetjeegroupeqspringboot.entity.EmployeeRole;
 import org.example.projetjeegroupeqspringboot.entity.Project;
+import org.example.projetjeegroupeqspringboot.entity.Role;
+import org.example.projetjeegroupeqspringboot.entity.embededId.EmployeeRoleId;
 import org.example.projetjeegroupeqspringboot.repository.DepartmentRepository;
 import org.example.projetjeegroupeqspringboot.repository.EmployeeProjectRepository;
 import org.example.projetjeegroupeqspringboot.repository.EmployeeRepository;
 import org.example.projetjeegroupeqspringboot.repository.EmployeeRoleRepository;
 import org.example.projetjeegroupeqspringboot.repository.PayRepository;
 import org.example.projetjeegroupeqspringboot.repository.ProjectRepository;
+import org.example.projetjeegroupeqspringboot.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -37,6 +41,9 @@ public class EmployeeService {
     @Autowired
     private ProjectRepository projectRepository;
 
+    @Autowired
+    private RoleRepository roleRepository;
+
     public List<Employee> findAll() {
         return employeeRepository.findAll(Sort.by("lastName"));
     }
@@ -45,8 +52,42 @@ public class EmployeeService {
         return employeeRepository.findById(id).orElse(null);
     }
 
+    /**
+     * Sauvegarde un employé
+     * Si c'est un nouvel employé (id == 0), lui attribue automatiquement le rôle "EMPLOYE"
+     */
+    @Transactional
     public void save(Employee employee) {
-        employeeRepository.save(employee);
+        boolean isNewEmployee = (employee.getId() == 0);
+
+        // Sauvegarder l'employé d'abord
+        Employee savedEmployee = employeeRepository.save(employee);
+
+        // Si c'est un nouvel employé, lui attribuer le rôle EMPLOYE par défaut
+        if (isNewEmployee) {
+            assignDefaultRole(savedEmployee);
+        }
+    }
+
+    /**
+     * Attribue le rôle "EMPLOYE" par défaut à un employé
+     */
+    private void assignDefaultRole(Employee employee) {
+        Role employeeRole = roleRepository.findByRoleName("EMPLOYE");
+
+        if (employeeRole != null) {
+            EmployeeRole employeeRoleAssociation = new EmployeeRole();
+
+            // Créer l'ID composite
+            EmployeeRoleId employeeRoleId = new EmployeeRoleId(employee.getId(), employeeRole.getIdRole());
+
+            // Définir l'ID composite et les entités
+            employeeRoleAssociation.setId(employeeRoleId);
+            employeeRoleAssociation.setEmployee(employee);
+            employeeRoleAssociation.setRole(employeeRole);
+
+            employeeRoleRepository.save(employeeRoleAssociation);
+        }
     }
 
     /**
@@ -64,34 +105,37 @@ public class EmployeeService {
             return;
         }
 
-        // 1. Retirer l'employé comme chef de département (avant toute suppression)
+        // 1. Supprimer toutes les affectations de l'employé aux projets (table employee_project) EN PREMIER
+        employeeProjectRepository.deleteByEmployeeId(id);
+        employeeProjectRepository.flush();
+
+        // 2. Supprimer tous les rôles de l'employé (table employee_role)
+        employeeRoleRepository.deleteByEmployeeId(id);
+        employeeRoleRepository.flush();
+
+        // 3. Supprimer toutes les fiches de paie de l'employé
+        payRepository.deleteByEmployeeId(id);
+        payRepository.flush();
+
+        // 4. Retirer l'employé comme chef de département (met à null)
         List<Department> departmentsManaged = departmentRepository.findByChefDepartmentId(id);
         for (Department dept : departmentsManaged) {
             dept.setChefDepartment(null);
             departmentRepository.save(dept);
         }
+        departmentRepository.flush();
 
-        // 2. Retirer l'employé comme chef de projet (avant toute suppression)
+        // 5. Retirer l'employé comme chef de projet (met à null)
         List<Project> projectsManaged = projectRepository.findByChefProjId(id);
         for (Project project : projectsManaged) {
             project.setChefProj(null);
             projectRepository.save(project);
         }
+        projectRepository.flush();
 
-        // 3. Supprimer tous les rôles de l'employé (table employee_role)
-        employeeRoleRepository.deleteByEmployeeId(id);
-
-        // 4. Supprimer toutes les fiches de paie de l'employé
-        payRepository.deleteByEmployeeId(id);
-
-        // 5. Supprimer toutes les affectations de l'employé aux projets (table employee_project)
-        employeeProjectRepository.deleteByEmployeeId(id);
-
-        // 6. Forcer le flush pour s'assurer que toutes les suppressions sont effectuées
-        employeeRepository.flush();
-
-        // 7. Supprimer l'employé
+        // 6. Supprimer l'employé
         employeeRepository.deleteById(id);
+        employeeRepository.flush();
     }
 
     /**
