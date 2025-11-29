@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Modifier un projet</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<!-- Barre de navigation -->
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<div class="hero-body">
+    <header>
+        <h2 th:text="'Suivi du projet : ' + ${project.nameProject}"></h2>
+        <nav>
+            <a th:href="@{/projects}">Retour à la liste</a>
+        </nav>
+    </header>
+
+    <div class="form-container">
+        <form th:action="@{'/projects/edit/' + ${project.id}}" method="post" class="employee-form">
+            <h2>Modifier le projet : <span th:text="${project.nameProject}"></span></h2>
+
+            <!-- Message d'erreur -->
+            <div th:if="${errorMessage}" class="error-message" th:text="${errorMessage}"></div>
+
+            <p>
+                <label for="projectName">Nom du projet</label>
+                <input type="text" id="projectName" name="nameProject" th:value="${project.nameProject}" required>
+            </p>
+
+            <p>
+                <label for="status">Statut</label>
+                <select id="status" name="status" required>
+                    <option value="WORKED_ON" th:selected="${project.status.name() == 'WORKED_ON'}">En cours</option>
+                    <option value="FINISHED" th:selected="${project.status.name() == 'FINISHED'}">Terminé</option>
+                    <option value="CANCELLED" th:selected="${project.status.name() == 'CANCELLED'}">Annulé</option>
+                </select>
+            </p>
+
+            <p>
+                <label for="manager">Chef de projet</label>
+                <select id="manager" name="chefProjId">
+                    <option value="">-- Aucun chef de projet --</option>
+                    <option th:each="e : ${employees}"
+                            th:value="${e.id}"
+                            th:selected="${project.chefProj != null and project.chefProj.id == e.id}"
+                            th:text="${e.firstName + ' ' + e.lastName}">
+                    </option>
+                </select>
+            </p>
+
+            <input type="submit" value="Enregistrer">
+        </form>
+
+    </div>
+</div>
+
+</body>
+</html>
+

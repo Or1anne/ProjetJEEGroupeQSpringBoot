@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Affectation d’un employé à un projet</title>
+    <link rel="stylesheet" th:href="@{/CSS/style.css}">
+</head>
+
+<body>
+
+<!-- Barre de navigation -->
+<div th:replace="fragments/navbar :: navbar"></div>
+
+
+<div class="hero-body">
+
+    <nav>
+        <a th:href="@{/projects}">Retour à la liste</a>
+    </nav>
+
+    <div class="form-container">
+        <form th:action="@{/projects/assign}" method="post" class="form">
+            <h2>Affecter un employé à un projet</h2>
+
+            <p>
+                <label for="project">Projet</label>
+                <select id="project" name="projectId" required>
+                    <option value="">-- Sélectionner --</option>
+
+                    <option th:each="proj : ${projects}"
+                            th:value="${proj.id}"
+                            th:selected="${selectedProjectId != null and selectedProjectId == proj.id}"
+                            th:text="${proj.nameProject}">
+                    </option>
+                </select>
+            </p>
+
+            <p>
+                <label for="employee">Employé</label>
+                <select id="employee" name="employeeId" required>
+                    <option value="">-- Sélectionner --</option>
+
+                    <option th:each="emp : ${employees}"
+                            th:value="${emp.id}"
+                            th:text="${emp.lastName} + ' ' + ${emp.firstName}">
+                    </option>
+                </select>
+            </p>
+
+            <input type="submit" value="Enregistrer">
+        </form>
+    </div>
+
+</div>
+
+</body>
+</html>

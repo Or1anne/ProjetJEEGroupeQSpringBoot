@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Créer un projet</title>
+    <link rel="stylesheet" th:href="@{/CSS/style.css}">
+</head>
+
+<body>
+
+<!-- Barre de navigation -->
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<div class="hero-body">
+    <nav>
+        <a th:href="@{/projects}">Retour à la liste</a>
+    </nav>
+
+    <div class="form-container">
+
+        <form th:action="@{/projects/add}" method="post" class="employee-form">
+            <h2>Créer un projet</h2>
+
+            <p>
+                <label for="projectName">Nom du projet</label>
+                <input type="text" id="projectName" name="nameProject" required>
+            </p>
+
+            <p>
+                <label for="status">Statut</label>
+                <select id="status" name="status" required>
+                    <option value="WORKED_ON">En cours</option>
+                </select>
+            </p>
+
+            <p>
+                <label for="manager">Chef de projet</label>
+                <select id="manager" name="chefProjId">
+                    <option value="">-- Aucun chef de projet --</option>
+                    <option th:each="e : ${employees}"
+                            th:value="${e.id}"
+                            th:text="${e.firstName + ' ' + e.lastName}">
+                    </option>
+                </select>
+            </p>
+
+            <input type="submit" value="Enregistrer">
+        </form>
+
+    </div>
+</div>
+
+</body>
+</html>
