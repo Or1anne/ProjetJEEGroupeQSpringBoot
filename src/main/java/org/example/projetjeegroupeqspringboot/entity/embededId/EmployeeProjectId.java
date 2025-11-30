@@ -7,11 +7,11 @@ import java.io.Serializable;
 @Embeddable
 public class EmployeeProjectId implements Serializable {
     private Integer id_employee;
-    private Integer id_project;
+    private Long id_project;
 
     public EmployeeProjectId() {}
 
-    public EmployeeProjectId(Integer idEmployee, Integer idProject) {
+    public EmployeeProjectId(Integer idEmployee, Long idProject) {
         this.id_employee = idEmployee;
         this.id_project = idProject;
     }
@@ -24,11 +24,11 @@ public class EmployeeProjectId implements Serializable {
         this.id_employee = idEmployee;
     }
 
-    public Integer getIdProject() {
+    public Long getIdProject() {
         return id_project;
     }
 
-    public void setIdProject(Integer idProject) {
+    public void setIdProject(Long idProject) {
         this.id_project = idProject;
     }
 

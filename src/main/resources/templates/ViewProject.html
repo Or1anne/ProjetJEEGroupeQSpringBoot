@@ -37,7 +37,7 @@
         <p th:if="${project.employees == null or #lists.isEmpty(project.employees)}">Aucun membre assigné</p>
 
         <div class="form-action" style="display:flex;gap:10px;margin-top:12px;">
-            <a th:href="@{'/projects/edit/' + ${project.id}}">Modifier</a>
+            <a th:href="@{/projects/edit/{id}(id=${project.id})}">Modifier</a>
             <a th:href="@{/projects}">Retour</a>
         </div>
 

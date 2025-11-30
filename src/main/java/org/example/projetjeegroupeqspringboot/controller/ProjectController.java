@@ -71,7 +71,13 @@ public class ProjectController {
             project.setChefProj(chef);
         }
 
-        projectService.save(project);
+        project = projectService.save(project);
+
+        // Ajouter automatiquement le chef de projet comme membre du projet
+        if (chefProjId != null && project.getId() != null) {
+            assignService.assignEmployeeToProject(chefProjId, project.getId());
+        }
+
         redirectAttributes.addFlashAttribute("success", "Projet créé avec succès");
         return "redirect:/projects";
     }
@@ -103,6 +109,8 @@ public class ProjectController {
             return "redirect:/projects";
         }
 
+        Long oldChefId = (project.getChefProj() != null) ? Long.valueOf(project.getChefProj().getId()) : null;
+
         project.setNameProject(capitalizeFirstLetter(nameProject));
         project.setStatus(ProjectStatus.valueOf(status));
 
@@ -114,6 +122,12 @@ public class ProjectController {
         }
 
         projectService.save(project);
+
+        // Ajouter automatiquement le nouveau chef de projet comme membre (si différent de l'ancien)
+        if (chefProjId != null && !chefProjId.equals(oldChefId)) {
+            assignService.assignEmployeeToProject(chefProjId, id);
+        }
+
         redirectAttributes.addFlashAttribute("success", "Projet modifié avec succès");
         return "redirect:/projects";
     }

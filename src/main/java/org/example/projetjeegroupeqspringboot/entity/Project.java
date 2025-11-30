@@ -15,7 +15,7 @@ public class Project
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Gère la génération et l'incrémentation automatiquement
     @Column(name = "id_project")
-    private int id;
+    private Long id;
 
     @Column(name = "name")
     @Nonnull
@@ -41,7 +41,7 @@ public class Project
         this.chefProj = chefProj;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 

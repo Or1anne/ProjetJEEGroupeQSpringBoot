@@ -28,17 +28,21 @@ public class AssignService {
 
         if (employee != null && project != null) {
             // Vérifier si l'affectation existe déjà (éviter les doublons)
-            EmployeeProjectId id = new EmployeeProjectId(employee.getId(), project.getId());
-            if (employeeProjectRepo.existsById(id)) {
+            EmployeeProjectId checkId = new EmployeeProjectId(employee.getId(), project.getId());
+            if (employeeProjectRepo.existsById(checkId)) {
                 return;
             }
 
-            // Créer l'association - JPA générera automatiquement l'ID via @MapsId
+            // Créer l'association et définir l'ID manuellement
             EmployeeProject employeeProject = new EmployeeProject();
             employeeProject.setEmployee(employee);
             employeeProject.setProject(project);
 
-            // Sauvegarder - JPA extrait automatiquement les IDs des relations
+            // Définir explicitement l'ID composite avant la sauvegarde
+            EmployeeProjectId newId = new EmployeeProjectId(employee.getId(), project.getId());
+            employeeProject.setId(newId);
+
+            // Sauvegarder
             employeeProjectRepo.save(employeeProject);
         }
     }

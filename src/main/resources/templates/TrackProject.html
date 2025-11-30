@@ -20,7 +20,7 @@
     </header>
 
     <div class="form-container">
-        <form th:action="@{'/projects/edit/' + ${project.id}}" method="post" class="employee-form">
+        <form th:action="@{/projects/edit/{id}(id=${project.id})}" method="post" class="employee-form">
             <h2>Modifier le projet : <span th:text="${project.nameProject}"></span></h2>
 
             <!-- Message d'erreur -->

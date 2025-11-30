@@ -42,9 +42,9 @@
             <td th:text="${project.status.label}"></td>
 
             <td>
-                <a th:href="@{'/projects/assign?projectId=' + ${project.id}}">Affecter un employé</a> |
-                <a th:href="@{'/projects/edit/' + ${project.id}}">Modifier</a> |
-                <a th:href="@{'/projects/delete/' + ${project.id}}" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce projet ?')">Supprimer</a>
+                <a th:href="@{/projects/assign(projectId=${project.id})}">Affecter un employé</a> |
+                <a th:href="@{/projects/edit/{id}(id=${project.id})}">Modifier</a> |
+                <a th:href="@{/projects/delete/{id}(id=${project.id})}" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce projet ?')">Supprimer</a>
             </td>
 
         </tr>

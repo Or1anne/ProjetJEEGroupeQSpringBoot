@@ -25,6 +25,10 @@ public class EmployeeProject {
         return id;
     }
 
+    public void setId(EmployeeProjectId id) {
+        this.id = id;
+    }
+
     public Employee getEmployee() {
         return employee;
     }
