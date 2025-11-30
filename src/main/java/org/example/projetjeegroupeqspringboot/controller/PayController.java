@@ -34,7 +34,7 @@ public class PayController {
 
     // Liste des fiches de paie (globale ou filtrée par employé)
     @GetMapping
-    public String listPays(@RequestParam(required = false) Long employeeId, @RequestParam(required = false) String searchCriteria, @RequestParam(required = false) String value, @RequestParam(required = false) String startDate, @RequestParam(required = false) String endDate,Model model) {
+    public String listPays(@RequestParam(required = false) Long employeeId, @RequestParam(required = false) String searchCriteria, @RequestParam(required = false) String value, @RequestParam(required = false) Date startDate, @RequestParam(required = false) Date endDate,Model model) {
         List<Pay> pays;
         Employee currentEmployee = null;
 
@@ -49,9 +49,19 @@ public class PayController {
             }
         } else {
             // Mode global : afficher toutes les paies
-            pays = payRepository.findAll();
-        }
+            if (searchCriteria == null || searchCriteria.isEmpty() || value == null || value.isEmpty()) {
+                pays = payRepository.findAll();
+            } else {
+                try {
+                    pays = payService.search(searchCriteria, value);
 
+                } catch (IllegalArgumentException e) {
+                    model.addAttribute("error", "Critère de recherche invalide");
+                    return "ListEmployee";
+                }
+
+            }
+        }
         model.addAttribute("pays", pays);
         return "ListPay";
     }
