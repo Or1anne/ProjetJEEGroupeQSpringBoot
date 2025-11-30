@@ -597,6 +597,10 @@ form input[type="submit"]:hover {
     transition: border-color 0.3s ease;
 }
 
+.search-date{
+    margin-top: 21px !important;
+}
+
 .search-bar input[type="text"]:focus {
     outline: none;
     border-color: #278088;
@@ -620,6 +624,39 @@ form input[type="submit"]:hover {
 
 .search-bar input[type="submit"]:hover {
     background-color: #278088;
+}
+
+.search-bar input[type="date"] {
+    font-size: 16px;
+    width: 90%;
+    height: 30px;
+    margin: 0;
+    padding: 8px 12px;
+    border: 2px solid #3abfcb;
+    border-radius: 8px;
+    background-color: white;
+    color: #333;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.search-bar input[type="date"]:focus {
+    outline: none;
+    border-color: #278088;
+}
+
+.search-bar .date-input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+}
+
+.search-bar .date-input-group label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #278088;
+    margin: 0;
 }
 
 .search-bar div {

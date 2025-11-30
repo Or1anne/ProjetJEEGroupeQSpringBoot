@@ -55,21 +55,20 @@
         <div th:if="${error}" th:text="${error}"></div>
 
         <p>
-            <input type="text" id="searchCriteria2" name="searchCriteria" value="Date" readonly>
+            <input type="text" class="search-date" id="searchCriteria2" name="searchCriteria" value="Date" readonly>
         </p>
 
-        <p>
-            <label>Date de début :
-                <input type="date" id="startDate" name="startDate" required>
-            </label>
+        <p class="date-input-group">
+            <label for="startDate">Date de début :</label>
+            <input type="date" id="startDate" name="startDate" required>
+        </p>
 
-            <label>Date de fin :
-                <input type="date" id="endDate" name="endDate"  required>
-            </label>
+        <p class="date-input-group">
+            <label for="endDate">Date de fin :</label>
+            <input type="date" id="endDate" name="endDate" required>
         </p>
-        <p>
-            <input type="submit" value="Rechercher">
-        </p>
+
+        <input class="search-date" type="submit" value="Rechercher">
     </form>
     <p id="errorMessage" style="color:red; margin-top:0; background:none;"></p>
 
