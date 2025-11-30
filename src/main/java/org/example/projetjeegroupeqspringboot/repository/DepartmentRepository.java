@@ -12,4 +12,5 @@ public interface DepartmentRepository extends JpaRepository<Department, Long> {
     List<Department> findByChefDepartment(Employee chefDepartment);
     List<Department> findByChefDepartmentId(Long idEmployee);
     List<Department> findByEmployees(List<Employee> employee);
+    List<Department> findByDepartmentNameContaining(String name);
 }

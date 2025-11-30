@@ -17,6 +17,25 @@
     <nav>
         <a class="btn" th:href="@{/employee/add}">Ajouter un employé</a>
     </nav>
+    <form class="search-bar" th:action="@{/employee}" method="get">
+        <!-- Message d'erreur -->
+        <div th:if="${error}" th:text="${error}"></div>
+
+        <p>
+            <select id="searchCriteria" name="searchCriteria" required>
+                <option value="">-- Catégorie de recherche --</option>
+                <option value="lastName">Nom</option>
+                <option value="firstName">Prénom</option>
+                <option value="department">Département</option>
+            </select>
+        </p>
+
+        <p>
+            <input type="text" id="value" name="value" placeholder="Rechercher un employé" required>
+        </p>
+
+        <input type="submit" value="Rechercher">
+    </form>
 
     <table class="table">
         <thead>

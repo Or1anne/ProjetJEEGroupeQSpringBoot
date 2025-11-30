@@ -19,6 +19,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.Normalizer;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -143,7 +145,7 @@ public class EmployeeService {
      * Si le username existe déjà, ajoute un chiffre à la fin
      *
      * @param firstName Le prénom de l'employé
-     * @param lastName Le nom de l'employé
+     * @param lastName  Le nom de l'employé
      * @return Un username unique
      */
     public String generateUniqueUsername(String firstName, String lastName) {
@@ -182,6 +184,7 @@ public class EmployeeService {
 
     /**
      * Retourne le mot de passe par défaut
+     *
      * @return Le mot de passe par défaut "departement"
      */
     public String getDefaultPassword() {
@@ -194,5 +197,29 @@ public class EmployeeService {
     private String removeAccents(String text) {
         String normalized = Normalizer.normalize(text, Normalizer.Form.NFD);
         return normalized.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+    }
+
+    public List<Employee> search(String searchCriteria, String value) {
+
+        if (value == null || value.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        return switch (searchCriteria) {
+            case "lastName" -> employeeRepository.findByLastNameContaining(value);
+            case "firstName" -> employeeRepository.findByFirstNameContaining(value);
+            case "department" -> {
+                List<Employee> result = new ArrayList<>();
+                for (Department department : departmentAssociateIdName(value)) {
+                    result.addAll(employeeRepository.findByDepartment(department));
+                }
+                yield result;
+            }
+            default -> throw new IllegalArgumentException("Champ de recherche invalide : " + searchCriteria);
+        };
+    }
+
+    private List<Department> departmentAssociateIdName(String name){
+        return departmentRepository.findByDepartmentNameContaining(name);
     }
 }
