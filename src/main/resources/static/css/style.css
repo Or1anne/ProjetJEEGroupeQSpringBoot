@@ -475,7 +475,7 @@ form input[type="submit"]:hover {
 
 .stats-table th {
     padding: 12px;
-    text-align: left;
+    text-align: center;
     font-weight: bold;
 }
 

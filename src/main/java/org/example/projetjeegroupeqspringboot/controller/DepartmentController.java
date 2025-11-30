@@ -94,6 +94,12 @@ public class DepartmentController {
         if (chefDepartmentId != null) {
             Employee chef = employeeService.findById(chefDepartmentId);
             department.setChefDepartment(chef);
+
+            // Affecter automatiquement le chef au département s'il n'est pas déjà membre
+            if (chef.getDepartment() == null || chef.getDepartment().getId() != department.getId()) {
+                chef.setDepartment(department);
+                employeeService.save(chef);
+            }
         } else {
             department.setChefDepartment(null);
         }
