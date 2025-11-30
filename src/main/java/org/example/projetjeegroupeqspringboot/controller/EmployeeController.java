@@ -5,7 +5,6 @@
     import org.example.projetjeegroupeqspringboot.service.DepartmentService;
     import org.example.projetjeegroupeqspringboot.service.EmployeeService;
     import org.springframework.beans.factory.annotation.Autowired;
-    import org.springframework.data.domain.Sort;
     import org.springframework.stereotype.Controller;
     import org.springframework.ui.Model;
     import org.springframework.web.bind.annotation.*;
@@ -89,9 +88,8 @@
                 employee = new Employee();
             }
 
-            // Mise à jour des champs
-            employee.setLastName(lastName);
-            employee.setFirstName(firstName);
+            employee.setLastName(capitalizeFirstLetter(lastName));
+            employee.setFirstName(capitalizeFirstLetter(firstName));
             employee.setGrade(grade);
             employee.setPost(post);
             employee.setSalary(salary != null ? salary : 0.0);
@@ -113,5 +111,20 @@
                 id != null ? "Employé modifié avec succès" : "Employé ajouté avec succès");
 
             return "redirect:/employee";
+        }
+
+        /**
+         * Méthode utilitaire pour formater un nom/prénom :
+         * première lettre en majuscule, reste en minuscule
+         */
+        private String capitalizeFirstLetter(String str) {
+            if (str == null || str.isEmpty()) {
+                return str;
+            }
+            str = str.trim();
+            if (str.isEmpty()) {
+                return str;
+            }
+            return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
         }
     }

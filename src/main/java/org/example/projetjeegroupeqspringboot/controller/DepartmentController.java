@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import static ch.qos.logback.core.util.StringUtil.capitalizeFirstLetter;
 
 @Controller
 @RequestMapping("/departments")
@@ -87,7 +88,7 @@ public class DepartmentController {
         }
 
         // Mise à jour des champs
-        department.setDepartmentName(departmentName);
+        department.setDepartmentName(capitalizeFirstLetter(departmentName));
 
         // Gestion du chef de département
         if (chefDepartmentId != null) {

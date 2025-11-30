@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import static ch.qos.logback.core.util.StringUtil.capitalizeFirstLetter;
 
 @Controller
 @RequestMapping("/projects")
@@ -62,7 +63,7 @@ public class ProjectController {
             RedirectAttributes redirectAttributes) {
 
         Project project = new Project();
-        project.setNameProject(nameProject);
+        project.setNameProject(capitalizeFirstLetter(nameProject));
         project.setStatus(ProjectStatus.valueOf(status));
 
         if (chefProjId != null) {
@@ -102,7 +103,7 @@ public class ProjectController {
             return "redirect:/projects";
         }
 
-        project.setNameProject(nameProject);
+        project.setNameProject(capitalizeFirstLetter(nameProject));
         project.setStatus(ProjectStatus.valueOf(status));
 
         if (chefProjId != null) {
