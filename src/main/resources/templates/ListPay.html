@@ -25,6 +25,7 @@
     </h2>
 
     <nav>
+        <a th:if="${currentEmployee != null and loggedUser != null and currentEmployee.id == loggedUser.id}" th:href="@{/profile}">Retour au profil</a>
         <a th:href="@{/pay/add(employeeId=${currentEmployee != null ? currentEmployee.id : null})}">
             Créer une fiche de paie
         </a>
