@@ -542,3 +542,38 @@ form input[type="submit"]:hover {
         height: 250px;
     }
 }
+
+
+.search-bar{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 90%;
+    padding: 0 0;
+    max-width: 1000px;
+}
+
+.search-bar input[type="submit"]{
+    font-size: 16px;
+    width: 150px;
+    max-width: 1000px;
+    height: 50px;
+    margin-top: 0;
+}
+
+.search-bar select{
+    font-size: 16px;
+    width: auto;
+    max-width: 1000px;
+    height: 50px;
+    margin-top: 0;
+}
+
+.search-bar input[type="text"] {
+    font-size: 16px;
+    width: auto;
+    max-width: 1000px;
+    height: 50px;
+    margin-top: 0;
+}

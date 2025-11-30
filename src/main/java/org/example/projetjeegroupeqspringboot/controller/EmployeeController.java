@@ -10,6 +10,8 @@
     import org.springframework.web.bind.annotation.*;
     import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+    import java.util.List;
+
     @Controller
     @RequestMapping("/employee")
     public class EmployeeController {
@@ -21,9 +23,25 @@
 
         // Liste des employés
         @GetMapping
-        public String listEmployees(Model model) {
-            model.addAttribute("employees", employeeService.findAll());
-            return "ListEmployee";
+        public String listEmployees(
+                @RequestParam(required = false) String searchCriteria,
+                @RequestParam(required = false) String value,
+                Model model) {
+
+            if (searchCriteria == null || searchCriteria.isEmpty() || value == null || value.isEmpty()) {
+                model.addAttribute("employees", employeeService.findAll());
+                return "ListEmployee";
+            }
+
+            try {
+                List<Employee> results = employeeService.search(searchCriteria, value);
+                model.addAttribute("employees", results);
+                return "ListEmployee";
+
+            } catch (IllegalArgumentException e) {
+                model.addAttribute("error", "Critère de recherche invalide");
+                return "ListEmployee";
+            }
         }
 
         // Formulaire d'ajout
