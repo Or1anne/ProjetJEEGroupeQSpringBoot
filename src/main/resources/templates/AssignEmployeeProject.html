@@ -11,43 +11,89 @@
 <!-- Barre de navigation -->
 <div th:replace="fragments/navbar :: navbar"></div>
 
-
 <div class="hero-body">
 
-    <nav>
-        <a th:href="@{/projects}">Retour à la liste</a>
-    </nav>
+        <h2>Gestion des affectations projet</h2>
+        <nav>
+            <a th:href="@{/projects}">Retour à la liste</a>
+        </nav>
 
-    <div class="form-container">
-        <form th:action="@{/projects/assign}" method="post" class="form">
-            <h2>Affecter un employé à un projet</h2>
+    <div class="assign-page-wrapper">
 
-            <p>
-                <label for="project">Projet</label>
-                <select id="project" name="projectId" required>
-                    <option value="">-- Sélectionner --</option>
+        <section class="assign-col">
+            <div class="form-container">
+                <form th:action="@{/projects/assign}" method="post" class="form">
+                    <h2>Affecter un employé à un projet</h2>
 
-                    <option th:each="proj : ${projects}"
-                            th:value="${proj.id}"
-                            th:selected="${selectedProjectId != null and selectedProjectId == proj.id}"
-                            th:text="${proj.nameProject}">
-                    </option>
-                </select>
-            </p>
+                    <p>
+                        <label for="project">Projet</label>
+                        <select id="project" name="projectId" required>
+                            <option value="">-- Sélectionner --</option>
 
-            <p>
-                <label for="employee">Employé</label>
-                <select id="employee" name="employeeId" required>
-                    <option value="">-- Sélectionner un employé --</option>
-                    <option th:each="emp : ${employees}"
-                            th:value="${emp.id}"
-                            th:text="${emp.lastName} + ' ' + ${emp.firstName}">
-                    </option>
-                </select>
-            </p>
+                            <option th:each="proj : ${projects}"
+                                    th:value="${proj.id}"
+                                    th:selected="${selectedProjectId != null and selectedProjectId == proj.id}"
+                                    th:text="${proj.nameProject}">
+                            </option>
+                        </select>
+                    </p>
 
-            <input type="submit" value="Affecter l'employé au projet">
-        </form>
+                    <p>
+                        <label for="employee">Employé</label>
+                        <select id="employee" name="employeeId" required>
+                            <option value="">-- Sélectionner un employé --</option>
+                            <option th:each="emp : ${employees}"
+                                    th:value="${emp.id}"
+                                    th:text="${emp.lastName + ' ' + emp.firstName}">
+                            </option>
+                        </select>
+                    </p>
+
+                    <input type="submit" value="Affecter l'employé au projet">
+                </form>
+            </div>
+        </section>
+
+        <section class="assign-col">
+            <div th:if="${selectedProjectId != null}">
+                <div th:if="${assignedEmployees != null and !assignedEmployees.isEmpty()}">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Prénom</th>
+                            <th>Poste</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="emp : ${assignedEmployees}">
+                            <td th:text="${emp.lastName}">Dupont</td>
+                            <td th:text="${emp.firstName}">Lucas</td>
+                            <td th:text="${emp.post}">Développeur</td>
+                            <td>
+                                <a th:href="@{/projects/unassign(employeeId=${emp.id}, projectId=${selectedProjectId})}"
+                                   onclick="return confirm('Êtes-vous sûr de vouloir retirer cet employé du projet ?');"
+                                   class="btn-delete">Retirer</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div th:if="${assignedEmployees == null or assignedEmployees.isEmpty()}" class="form-container">
+                    <div class="form">
+                        <p>Aucun employé n'est actuellement assigné à ce projet.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div th:if="${selectedProjectId == null}" class="form-container">
+                <div class="form">
+                    <p>Sélectionnez d'abord un projet à gauche pour voir ses membres.</p>
+                </div>
+            </div>
+        </section>
+
     </div>
 
 </div>

@@ -10,6 +10,9 @@ import org.example.projetjeegroupeqspringboot.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class AssignService {
 
@@ -46,5 +49,21 @@ public class AssignService {
             employeeProjectRepo.save(employeeProject);
         }
     }
-}
 
+    public void unassignEmployeeFromProject(int employeeId, Long projectId) {
+        EmployeeProjectId id = new EmployeeProjectId(employeeId, projectId);
+        if (employeeProjectRepo.existsById(id)) {
+            employeeProjectRepo.deleteById(id);
+        }
+    }
+
+    /**
+     * Retourne la liste des employés affectés à un projet
+     */
+    public List<Employee> getAssignedEmployees(Long projectId) {
+        Project project = projectRepo.findById(projectId).orElse(null);
+        if (project == null) return List.of();
+        List<EmployeeProject> links = employeeProjectRepo.findByProject(project);
+        return links.stream().map(EmployeeProject::getEmployee).collect(Collectors.toList());
+    }
+}

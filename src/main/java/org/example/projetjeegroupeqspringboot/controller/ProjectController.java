@@ -148,6 +148,7 @@ public class ProjectController {
 
         if (projectId != null) {
             model.addAttribute("selectedProjectId", projectId);
+            model.addAttribute("assignedEmployees", assignService.getAssignedEmployees(projectId));
         }
 
         return "AssignEmployeeProject";
@@ -165,5 +166,16 @@ public class ProjectController {
         return "redirect:/projects";
     }
 
-}
+    // Désassigner un employé d'un projet
+    @GetMapping("/unassign")
+    public String unassignEmployeeFromProject(
+            @RequestParam int employeeId,
+            @RequestParam Long projectId,
+            RedirectAttributes redirectAttributes) {
 
+        assignService.unassignEmployeeFromProject(employeeId, projectId);
+        redirectAttributes.addFlashAttribute("success", "Employé retiré du projet avec succès");
+        return "redirect:/projects/assign?projectId=" + projectId;
+    }
+
+}

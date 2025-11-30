@@ -648,3 +648,32 @@ form input[type="submit"]:hover {
         width: 100%;
     }
 }
+
+/* ==============================
+   Assign Employee to Project Page
+   ============================== */
+
+/* Layout helpers for assign page - side-by-side form and table */
+.assign-page-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.assign-col {
+    flex: 1 1 480px; /* responsive: min ~480px then grow */
+    min-width: 320px;
+}
+
+.assign-col .form-container,
+.assign-col .content-table {
+    width: 100%;
+}
+
+.assign-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
