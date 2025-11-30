@@ -50,6 +50,7 @@
                 <option value="">-- Sélectionner un employé --</option>
                 <option th:each="emp : ${employees}"
                         th:value="${emp.id}"
+                        th:attr="data-salary=${emp.salary}"
                         th:text="${emp.firstName + ' ' + emp.lastName}">
                 </option>
             </select>
@@ -62,8 +63,8 @@
             <label for="baseSalary">Salaire de base (€)</label>
             <input type="number" id="baseSalary" name="baseSalary"
                    step="0.01" min="0"
-                   th:value="${isEditMode && pay != null ? (pay.salaryNet - pay.bonus + pay.deductions) : (prefillEmployee != null ? prefillEmployee.salary : '')}"
-                   th:readonly="${prefillEmployee != null && !isEditMode}"
+                   th:value="${prefillEmployee != null ? prefillEmployee.salary : (isEditMode && pay != null && pay.employee != null ? pay.employee.salary : '')}"
+                   readonly
                    required>
 
             <label for="bonus">Primes (€)</label>
@@ -105,11 +106,30 @@
         document.getElementById('salaryNet').value = net.toFixed(2);
     }
 
+    // Mettre à jour le salaire de base lors du choix d'un employé (création)
+    document.addEventListener('DOMContentLoaded', function() {
+        const employeeSelect = document.getElementById('employee');
+        const baseSalaryInput = document.getElementById('baseSalary');
+        if (employeeSelect) {
+            employeeSelect.addEventListener('change', function() {
+                const selected = employeeSelect.options[employeeSelect.selectedIndex];
+                const salary = selected ? selected.getAttribute('data-salary') : '';
+                if (salary) {
+                    baseSalaryInput.value = parseFloat(salary).toFixed(2);
+                } else {
+                    baseSalaryInput.value = '';
+                }
+                baseSalaryInput.readOnly = true; // Toujours non modifiable
+                calculateNet();
+            });
+        }
+    });
+
     // Validation avant soumission
     function validateForm() {
         calculateNet(); // S'assurer que le net est calculé
         const net = parseFloat(document.getElementById('salaryNet').value);
-        if (net <= 0) {
+        if (isNaN(net) || net <= 0) {
             alert('Veuillez calculer le salaire net avant de soumettre');
             return false;
         }
@@ -129,4 +149,3 @@
 
 </body>
 </html>
-

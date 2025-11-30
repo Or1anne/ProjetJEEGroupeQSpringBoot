@@ -45,7 +45,7 @@
         <p th:if="${employee.projects == null or #lists.isEmpty(employee.projects)}">Aucun projet assigné</p>
 
         <div class="form-action" style="display:flex;gap:10px;margin-top:12px;">
-            <a class="button" th:href="@{/employee(action='edit', id=${employee.id})}">Modifier</a>
+            <a class="button" th:href="@{/employee/edit/{id}(id=${employee.id})}">Modifier</a>
             <a class="button" th:href="@{/employee}">Retour</a>
             <a class="button" th:href="@{/pay(employeeId=${employee.id})}">Fiche de paie</a>
         </div>

@@ -14,7 +14,6 @@
                 <a th:href="@{/}" class="navbar-item">Accueil</a>
 
                 <!-- Afficher uniquement si connecté -->
-                <a th:if="${loggedUser != null}" th:href="@{/search}" class="navbar-item">Recherche</a>
                 <a th:if="${loggedUser != null}" th:href="@{/gestion}" class="navbar-item">Gestion</a>
             </div>
 
