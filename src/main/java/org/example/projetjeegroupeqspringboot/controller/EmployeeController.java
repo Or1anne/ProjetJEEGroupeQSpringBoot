@@ -23,10 +23,7 @@
 
         // Liste des employés
         @GetMapping
-        public String listEmployees(
-                @RequestParam(required = false) String searchCriteria,
-                @RequestParam(required = false) String value,
-                Model model) {
+        public String listEmployees(@RequestParam(required = false) String searchCriteria, @RequestParam(required = false) String value, Model model) {
 
             if (searchCriteria == null || searchCriteria.isEmpty() || value == null || value.isEmpty()) {
                 model.addAttribute("employees", employeeService.findAll());

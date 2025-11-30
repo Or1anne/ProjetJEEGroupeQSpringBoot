@@ -5,6 +5,7 @@ import org.example.projetjeegroupeqspringboot.entity.Employee;
 import org.example.projetjeegroupeqspringboot.entity.Pay;
 import org.example.projetjeegroupeqspringboot.repository.EmployeeRepository;
 import org.example.projetjeegroupeqspringboot.repository.PayRepository;
+import org.example.projetjeegroupeqspringboot.service.PayService;
 import org.example.projetjeegroupeqspringboot.util.PayPdfGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,9 +29,12 @@ public class PayController {
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    @Autowired
+    private PayService payService;
+
     // Liste des fiches de paie (globale ou filtrée par employé)
     @GetMapping
-    public String listPays(@RequestParam(required = false) Long employeeId, Model model) {
+    public String listPays(@RequestParam(required = false) Long employeeId, @RequestParam(required = false) String searchCriteria, @RequestParam(required = false) String value, @RequestParam(required = false) String startDate, @RequestParam(required = false) String endDate,Model model) {
         List<Pay> pays;
         Employee currentEmployee = null;
 

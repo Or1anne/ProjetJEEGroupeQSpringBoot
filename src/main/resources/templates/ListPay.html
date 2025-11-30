@@ -31,6 +31,65 @@
         </a>
     </nav>
 
+    <form class="search-bar" th:action="@{/pay}" method="get">
+        <!-- Message d'erreur -->
+        <div th:if="${error}" th:text="${error}"></div>
+
+        <p>
+            <select id="searchCriteria1" name="searchCriteria" required>
+                <option value="">-- Catégorie de recherche --</option>
+                <option value="lastName">Nom</option>
+                <option value="firstName">Prénom</option>
+            </select>
+        </p>
+
+        <p>
+            <input type="text" id="value1" name="value" placeholder="Rechercher par employé" >
+        </p>
+
+        <input type="submit" value="Rechercher">
+    </form>
+
+    <form class="search-bar" th:action="@{/pay}" method="get" id="periodForm">
+        <!-- Message d'erreur -->
+        <div th:if="${error}" th:text="${error}"></div>
+
+        <p>
+            <input type="text" id="searchCriteria2" name="searchCriteria" value="Date" readonly>
+        </p>
+
+        <p>
+            <label>Date de début :
+                <input type="date" id="startDate" name="startDate" required>
+            </label>
+
+            <label>Date de fin :
+                <input type="date" id="endDate" name="endDate"  required>
+            </label>
+        </p>
+        <p>
+            <input type="submit" value="Rechercher">
+        </p>
+    </form>
+    <p id="errorMessage" style="color:red; margin-top:0; background:none;"></p>
+
+    <script>
+        const form = document.getElementById("periodForm");
+        const errorMessage = document.getElementById("errorMessage");
+
+        form.addEventListener("submit", function(event) {
+            const startDate = document.getElementById("startDate").value;
+            const endDate = document.getElementById("endDate").value;
+
+            if (startDate && endDate && startDate > endDate) {
+                event.preventDefault();
+                errorMessage.textContent = "Erreur : la date de début ne peut pas être après la date de fin!";
+            } else {
+                errorMessage.textContent = "";
+            }
+        });
+    </script>
+
     <table class="table">
         <thead>
         <tr>
