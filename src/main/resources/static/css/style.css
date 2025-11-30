@@ -282,6 +282,10 @@ form input[type="submit"]:hover {
     text-align: left;
 }
 
+.dashboard-grid .card-fullwidth {
+    grid-column: 1 / -1;
+}
+
 .card {
     align-items: start !important;
     background-color: #ffffff;
